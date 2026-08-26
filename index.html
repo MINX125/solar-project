@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Solar Powerbank X1 - Hardware Simulation, Lab Calculator & Telemetry Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,6 +47,7 @@
       display: flex;
       justify-content: center;
       padding: 1.25rem 1rem 3.5rem 1rem;
+      overflow-x: hidden;
     }
 
     .app-container {
@@ -89,6 +90,7 @@
       justify-content: center;
       font-size: 1.5rem;
       box-shadow: 0 0 20px rgba(0, 242, 254, 0.35);
+      flex-shrink: 0;
     }
 
     .brand-text h1 {
@@ -153,6 +155,7 @@
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.03em;
+      white-space: nowrap;
     }
 
     .pulse-dot {
@@ -162,6 +165,7 @@
       border-radius: 50%;
       box-shadow: 0 0 10px var(--accent-green);
       animation: pulse 1.8s infinite;
+      flex-shrink: 0;
     }
 
     @keyframes pulse {
@@ -204,6 +208,7 @@
       font-size: 1.4rem;
       color: var(--accent-blue);
       transition: all 0.3s ease;
+      flex-shrink: 0;
     }
 
     .status-banner-info h2 {
@@ -232,6 +237,7 @@
       font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.03em;
+      white-space: nowrap;
     }
 
     /* Base Glass Card */
@@ -266,24 +272,77 @@
     }
 
     /* =========================================================================
-       INTERACTIVE CIRCUIT SCHEMATIC (COREL DRAW ACCURATE)
+       RESPONSIVE CIRCUIT SCHEMATIC (AUTO FIT HP / SMART SCALER)
        ========================================================================= */
+    .schematic-view-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid var(--panel-border);
+      border-radius: 0.75rem;
+      padding: 0.4rem 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .schematic-view-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .schematic-view-btn-group {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .view-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--panel-border);
+      color: var(--text-muted);
+      padding: 0.3rem 0.65rem;
+      border-radius: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn.active {
+      background: rgba(0, 242, 254, 0.2);
+      color: var(--cyan-glow);
+      border-color: rgba(0, 242, 254, 0.5);
+    }
+
     .schematic-wrapper {
       position: relative;
       width: 100%;
       background: #090d16;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 1rem;
-      padding: 1.25rem;
-      overflow-x: auto;
+      padding: 0.75rem;
       box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+      transition: height 0.2s ease;
+    }
+
+    .schematic-scaler {
+      transform-origin: top center;
+      transition: transform 0.2s ease;
+      display: flex;
+      justify-content: center;
     }
 
     .schematic-stage {
       position: relative;
       width: 960px;
       height: 480px;
-      margin: 0 auto;
+      flex-shrink: 0;
       user-select: none;
     }
 
@@ -799,7 +858,7 @@
     .schematic-legend {
       display: flex;
       gap: 1.25rem;
-      background: rgba(2, 6, 23, 0.8);
+      background: rgba(2, 6, 23, 0.85);
       border: 1px solid var(--panel-border);
       border-radius: 0.75rem;
       padding: 0.5rem 1rem;
@@ -986,7 +1045,7 @@
     /* Metric Cards 6-Grid */
     .metrics-6-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
     }
 
@@ -1032,6 +1091,7 @@
       align-items: center;
       justify-content: center;
       font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
     .card-main-val {
@@ -1118,17 +1178,20 @@
       align-items: center;
       font-size: 0.8rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 0.4rem;
     }
 
     .calc-select {
       background: #0f172a;
       border: 1px solid var(--panel-border);
       color: #fff;
-      padding: 0.35rem 0.65rem;
+      padding: 0.4rem 0.65rem;
       border-radius: 0.5rem;
       font-size: 0.78rem;
       font-weight: 600;
       outline: none;
+      max-width: 100%;
     }
 
     .calc-result-box {
@@ -1150,7 +1213,7 @@
     .calc-result-desc {
       font-size: 0.72rem;
       color: var(--text-muted);
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     /* Controller Deck */
@@ -1182,6 +1245,8 @@
       font-size: 0.82rem;
       font-weight: 700;
       color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 0.3rem;
     }
 
     .control-tag {
@@ -1192,26 +1257,27 @@
     input[type=range] {
       -webkit-appearance: none;
       width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       outline: none;
+      touch-action: none;
     }
 
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 22px;
+      height: 22px;
       border-radius: 50%;
       background: var(--cyan-glow);
       cursor: pointer;
-      box-shadow: 0 0 12px rgba(0, 242, 254, 0.8);
+      box-shadow: 0 0 14px rgba(0, 242, 254, 0.9);
       transition: transform 0.15s ease;
     }
 
     input[type=range]::-webkit-slider-thumb:hover {
-      transform: scale(1.25);
+      transform: scale(1.2);
     }
 
     .chip-group {
@@ -1224,12 +1290,15 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--panel-border);
       color: var(--text-muted);
-      padding: 0.4rem 0.75rem;
+      padding: 0.45rem 0.75rem;
       border-radius: 0.6rem;
       font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .chip-btn:hover {
@@ -1333,6 +1402,154 @@
       color: var(--text-muted);
       font-weight: 500;
     }
+
+    /* =========================================================================
+       MOBILE OPTIMIZATIONS (PAS DI LAYAR HP)
+       ========================================================================= */
+    @media (max-width: 640px) {
+      body {
+        padding: 0.6rem 0.5rem 2.5rem 0.5rem;
+      }
+
+      .app-container {
+        gap: 0.85rem;
+      }
+
+      .glass-panel {
+        padding: 1rem 0.85rem;
+        border-radius: 1rem;
+      }
+
+      .nav-header {
+        padding: 0.85rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+
+      .nav-controls {
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .brand-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+      }
+
+      .brand-text h1 {
+        font-size: 1.1rem;
+      }
+
+      .brand-text p {
+        font-size: 0.7rem;
+      }
+
+      .speed-btn {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.72rem;
+      }
+
+      .live-pill {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.72rem;
+      }
+
+      .status-banner {
+        padding: 0.85rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .status-banner-left {
+        gap: 0.75rem;
+      }
+
+      .status-icon-box {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+      }
+
+      .status-banner-info h2 {
+        font-size: 0.92rem;
+      }
+
+      .status-banner-info p {
+        font-size: 0.75rem;
+      }
+
+      .status-tags {
+        width: 100%;
+      }
+
+      .circular-gauge {
+        width: 150px;
+        height: 150px;
+        margin: 0.2rem 0 0.6rem 0;
+      }
+
+      .gauge-percentage {
+        font-size: 2.2rem;
+      }
+
+      .metrics-6-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.65rem;
+      }
+
+      .metric-card-modern {
+        padding: 0.85rem 0.75rem;
+        border-radius: 0.85rem;
+      }
+
+      .card-main-val {
+        font-size: 1.35rem;
+      }
+
+      .card-title {
+        font-size: 0.65rem;
+      }
+
+      .canvas-container {
+        height: 160px;
+      }
+
+      .calc-card {
+        padding: 1rem 0.85rem;
+      }
+
+      .calc-select {
+        width: 100%;
+        margin-top: 4px;
+      }
+
+      .calc-input-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .control-box {
+        padding: 0.95rem 0.85rem;
+      }
+
+      .chip-btn {
+        flex: 1 1 calc(50% - 0.3rem);
+        padding: 0.5rem 0.4rem;
+        font-size: 0.72rem;
+        text-align: center;
+      }
+
+      .app-footer {
+        padding: 1.25rem 0.9rem;
+      }
+
+      .author-name {
+        font-size: 1.25rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1397,169 +1614,180 @@
         </span>
       </div>
 
-      <div class="schematic-wrapper">
-        <div class="schematic-stage">
-          
-          <!-- SVG Dynamic Wires & Current Pulse Flow -->
-          <svg class="circuit-svg" viewBox="0 0 960 480">
-            <!-- 1. Positive Wires (Red) -->
-            <!-- Solar Pos -> TP4056 IN+ -->
-            <path d="M 230 75 L 340 75 L 340 160 L 375 160" class="wire-pos"></path>
-            <!-- TP4056 BAT+ -> Battery Pos -->
-            <path d="M 445 160 L 515 160 L 515 345 L 60 345" class="wire-pos"></path>
-            <!-- Battery Pos Tap -> Switch Pin 1 -->
-            <path d="M 515 160 L 515 65 L 555 65" class="wire-pos"></path>
-            <!-- Switch Pin 2 -> Step-Up VIN+ -->
-            <path d="M 635 65 L 665 65 L 665 190 L 635 190" class="wire-pos"></path>
-            <!-- Step-Up VOUT+ -> Voltmeter VCC & USB +5V -->
-            <path d="M 635 270 L 690 270 L 690 65 L 735 65" class="wire-pos" id="wireStepUpToVoltPos"></path>
-            <path d="M 690 270 L 690 345 L 645 345" class="wire-pos" id="wireStepUpToUsbPos"></path>
-            <!-- USB Socket -> Phone Load -->
-            <path d="M 645 345 L 735 345" class="wire-pos" id="wireUsbToPhonePos"></path>
+      <!-- Mobile Viewport Controls (Pas Layar HP / Ukuran Asli) -->
+      <div class="schematic-view-bar">
+        <span class="schematic-view-title">📱 Tampilan Layar:</span>
+        <div class="schematic-view-btn-group">
+          <button class="view-btn active" id="btnFitAuto" onclick="setSchematicMode('auto')">📱 Pas Layar HP</button>
+          <button class="view-btn" id="btnFitScroll" onclick="setSchematicMode('scroll')">🔍 Geser Bebas (100%)</button>
+        </div>
+      </div>
 
-            <!-- 2. Negative Wires (White/Silver) -->
-            <!-- Solar Neg -> TP4056 IN- -->
-            <path d="M 230 195 L 360 195 L 360 250 L 375 250" class="wire-neg"></path>
-            <!-- TP4056 BAT- -> Battery Neg -->
-            <path d="M 445 250 L 485 250 L 485 385 L 270 385" class="wire-neg"></path>
-            <!-- Battery Neg Tap -> Step-Up VIN- -->
-            <path d="M 485 250 L 555 250" class="wire-neg"></path>
-            <!-- Step-Up VOUT- -> Voltmeter GND & USB GND -->
-            <path d="M 555 285 L 515 285 L 515 425 L 710 425 L 710 85 L 735 85" class="wire-neg"></path>
-            <path d="M 710 385 L 645 385" class="wire-neg"></path>
-            <!-- USB GND -> Phone Load -->
-            <path d="M 645 385 L 735 385" class="wire-neg"></path>
-
-            <!-- 3. Animated Flow Overlays (Dynamic Energy Transfer) -->
-            <path d="M 230 75 L 340 75 L 340 160 L 375 160" class="wire-pulse-pos" id="pulseSolarPos"></path>
-            <path d="M 445 160 L 515 160 L 515 345 L 60 345" class="wire-pulse-pos" id="pulseBatChargePos"></path>
+      <div class="schematic-wrapper" id="schematicWrapper">
+        <div class="schematic-scaler" id="schematicScaler">
+          <div class="schematic-stage" id="schematicStage">
             
-            <path d="M 515 160 L 515 65 L 555 65" class="wire-pulse-pos" id="pulseSwitchInPos"></path>
-            <path d="M 635 65 L 665 65 L 665 190 L 635 190" class="wire-pulse-pos" id="pulseStepUpInPos"></path>
-            <path d="M 690 270 L 690 345 L 735 345" class="wire-pulse-pos" id="pulseUsbOutPos"></path>
+            <!-- SVG Dynamic Wires & Current Pulse Flow -->
+            <svg class="circuit-svg" viewBox="0 0 960 480">
+              <!-- 1. Positive Wires (Red) -->
+              <!-- Solar Pos -> TP4056 IN+ -->
+              <path d="M 230 75 L 340 75 L 340 160 L 375 160" class="wire-pos"></path>
+              <!-- TP4056 BAT+ -> Battery Pos -->
+              <path d="M 445 160 L 515 160 L 515 345 L 60 345" class="wire-pos"></path>
+              <!-- Battery Pos Tap -> Switch Pin 1 -->
+              <path d="M 515 160 L 515 65 L 555 65" class="wire-pos"></path>
+              <!-- Switch Pin 2 -> Step-Up VIN+ -->
+              <path d="M 635 65 L 665 65 L 665 190 L 635 190" class="wire-pos"></path>
+              <!-- Step-Up VOUT+ -> Voltmeter VCC & USB +5V -->
+              <path d="M 635 270 L 690 270 L 690 65 L 735 65" class="wire-pos" id="wireStepUpToVoltPos"></path>
+              <path d="M 690 270 L 690 345 L 645 345" class="wire-pos" id="wireStepUpToUsbPos"></path>
+              <!-- USB Socket -> Phone Load -->
+              <path d="M 645 345 L 735 345" class="wire-pos" id="wireUsbToPhonePos"></path>
 
-            <!-- Junction Dots -->
-            <circle cx="340" cy="75" class="junction-dot"></circle>
-            <circle cx="515" cy="160" class="junction-dot"></circle>
-            <circle cx="690" cy="270" class="junction-dot"></circle>
-            <circle cx="485" cy="250" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
-            <circle cx="710" cy="385" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
-          </svg>
+              <!-- 2. Negative Wires (White/Silver) -->
+              <!-- Solar Neg -> TP4056 IN- -->
+              <path d="M 230 195 L 360 195 L 360 250 L 375 250" class="wire-neg"></path>
+              <!-- TP4056 BAT- -> Battery Neg -->
+              <path d="M 445 250 L 485 250 L 485 385 L 270 385" class="wire-neg"></path>
+              <!-- Battery Neg Tap -> Step-Up VIN- -->
+              <path d="M 485 250 L 555 250" class="wire-neg"></path>
+              <!-- Step-Up VOUT- -> Voltmeter GND & USB GND -->
+              <path d="M 555 285 L 515 285 L 515 425 L 710 425 L 710 85 L 735 85" class="wire-neg"></path>
+              <path d="M 710 385 L 645 385" class="wire-neg"></path>
+              <!-- USB GND -> Phone Load -->
+              <path d="M 645 385 L 735 385" class="wire-neg"></path>
 
-          <!-- Component Nodes -->
-
-          <!-- 1. Panel Surya -->
-          <div class="comp-node" id="node-solar" onclick="inspectComponent('solar')" onmouseenter="peekComponent('solar')">
-            <div style="font-size: 0.75rem; font-weight: 800; color: #f59e0b; display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
-              <span>☀️</span> PANEL SURYA
-            </div>
-            <div class="solar-grid">
-              <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
-              <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
-              <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
-              <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
-            </div>
-            <div class="solar-live-readout">
-              <span id="schSolarVolt">5.50 V</span>
-              <span id="schSolarAmp">0.65 A</span>
-              <span id="schSolarWatt">3.58 W</span>
-            </div>
-          </div>
-
-          <!-- 2. Baterai 18650 -->
-          <div class="comp-node" id="node-battery" onclick="inspectComponent('battery')" onmouseenter="peekComponent('battery')">
-            <div style="font-size: 0.72rem; font-weight: 800; color: #34d399; margin-bottom: 4px;">
-              BATERAI 3.7V (18650 2500mAh)
-            </div>
-            <div class="battery-3d-cylinder">
-              <div class="battery-pos-terminal"></div>
-              <span class="battery-text-print">INR18650-25R</span>
-              <span class="battery-text-print" id="schBatPct">58%</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; width: 100%; font-size: 0.7rem; font-weight: 700; color: #94a3b8; margin-top: 4px;">
-              <span id="schBatVolt">3.70 V</span>
-              <span id="schBatNetFlow" style="color: #38bdf8;">+0.65A Net</span>
-            </div>
-          </div>
-
-          <!-- 3. Modul Charger TP4056 -->
-          <div class="comp-node" id="node-tp4056" onclick="inspectComponent('tp4056')" onmouseenter="peekComponent('tp4056')">
-            <div class="tp-usb-port">USB</div>
-            <div class="tp-ic-chip">TP4056</div>
-            <div class="tp-led-row">
-              <div class="tp-led red-on" id="ledTpRed" title="LED Merah: Sedang Charging"></div>
-              <div class="tp-led" id="ledTpGreen" title="LED Hijau: Standby / Penuh"></div>
-            </div>
-            <div class="comp-label">MODUL CHARGER</div>
-          </div>
-
-          <!-- 4. Saklar Rocker -->
-          <div class="comp-node" id="node-switch" onclick="handleSwitchClick(event)" onmouseenter="peekComponent('switch')">
-            <div class="rocker-switch-btn" id="schSwitchVisual">
-              ON
-            </div>
-            <div class="comp-label" style="color: #fca5a5;">SAKLAR (CLICK)</div>
-          </div>
-
-          <!-- 5. Modul Step-Up MT3608 -->
-          <div class="comp-node" id="node-stepup" onclick="inspectComponent('stepup')" onmouseenter="peekComponent('stepup')">
-            <div class="stepup-pot">POT</div>
-            <div class="stepup-inductor">220</div>
-            <div class="comp-label">STEP UP 5V</div>
-            <div style="font-size: 0.65rem; color: #38bdf8; font-weight: 700; margin-top: 2px;" id="schStepUpStatus">
-              BOOST 5.0V
-            </div>
-          </div>
-
-          <!-- 6. Mini Voltmeter Digital 7-Segment -->
-          <div class="comp-node" id="node-voltmeter" onclick="inspectComponent('voltmeter')" onmouseenter="peekComponent('voltmeter')">
-            <div class="comp-label" style="margin-bottom: 4px; color: #6ee7b7;">VOLTMETER DIGITAL</div>
-            <div class="seven-segment-display" id="sevenSegVolt">
-              5.02
-            </div>
-          </div>
-
-          <!-- 7. Socket USB Output -->
-          <div class="comp-node" id="node-usb" onclick="inspectComponent('usb')" onmouseenter="peekComponent('usb')">
-            <div class="usb-port-metal">USB-A</div>
-            <div class="comp-label">SOCKET USB</div>
-            <div style="font-size: 0.65rem; color: #c084fc; font-weight: 700; margin-top: 2px;" id="schUsbOutReadout">
-              5.0V / 1.2A
-            </div>
-          </div>
-
-          <!-- 8. Interactive Smartphone Lockscreen Mockup -->
-          <div class="comp-node" id="node-phone" onclick="inspectComponent('phone')" onmouseenter="peekComponent('phone')">
-            <div class="phone-speaker-slit"></div>
-            <div class="phone-screen-inner">
-              <div class="phone-top-bar">
-                <span>SIM 1</span>
-                <span id="phoneTopBatIcon">⚡ 42%</span>
-              </div>
-              <div style="text-align: center;">
-                <div class="phone-clock-text" id="phoneLiveClock">19:21</div>
-                <div class="phone-date-text" id="phoneLiveDate">Rabu, 26 Agustus</div>
-              </div>
+              <!-- 3. Animated Flow Overlays (Dynamic Energy Transfer) -->
+              <path d="M 230 75 L 340 75 L 340 160 L 375 160" class="wire-pulse-pos" id="pulseSolarPos"></path>
+              <path d="M 445 160 L 515 160 L 515 345 L 60 345" class="wire-pulse-pos" id="pulseBatChargePos"></path>
               
-              <div class="phone-charging-visual-box">
-                <div class="charging-glow-circle" id="phoneAnimCircle">⚡</div>
-                <div class="phone-battery-pct-big" id="phoneBatPctBig">42%</div>
-              </div>
+              <path d="M 515 160 L 515 65 L 555 65" class="wire-pulse-pos" id="pulseSwitchInPos"></path>
+              <path d="M 635 65 L 665 65 L 665 190 L 635 190" class="wire-pulse-pos" id="pulseStepUpInPos"></path>
+              <path d="M 690 270 L 690 345 L 735 345" class="wire-pulse-pos" id="pulseUsbOutPos"></path>
 
-              <div class="phone-status-caption" id="phoneLiveStatusCaption">
-                Fast Charging • 6.0W
+              <!-- Junction Dots -->
+              <circle cx="340" cy="75" class="junction-dot"></circle>
+              <circle cx="515" cy="160" class="junction-dot"></circle>
+              <circle cx="690" cy="270" class="junction-dot"></circle>
+              <circle cx="485" cy="250" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
+              <circle cx="710" cy="385" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
+            </svg>
+
+            <!-- Component Nodes -->
+
+            <!-- 1. Panel Surya -->
+            <div class="comp-node" id="node-solar" onclick="inspectComponent('solar')" onmouseenter="peekComponent('solar')">
+              <div style="font-size: 0.75rem; font-weight: 800; color: #f59e0b; display: flex; align-items: center; gap: 4px; margin-bottom: 4px;">
+                <span>☀️</span> PANEL SURYA
               </div>
-              <div class="phone-bottom-home-bar"></div>
+              <div class="solar-grid">
+                <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
+                <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
+                <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
+                <div class="solar-cell"></div><div class="solar-cell"></div><div class="solar-cell"></div>
+              </div>
+              <div class="solar-live-readout">
+                <span id="schSolarVolt">5.50 V</span>
+                <span id="schSolarAmp">0.65 A</span>
+                <span id="schSolarWatt">3.58 W</span>
+              </div>
             </div>
-          </div>
 
-          <!-- Schematic Bottom Legend -->
-          <div class="schematic-legend">
-            <div><span class="legend-bullet" style="background: #ef4444;"></span> Jalur Positif (+)</div>
-            <div><span class="legend-bullet" style="background: #e2e8f0;"></span> Jalur Ground / Negatif (-)</div>
-            <div><span class="legend-bullet" style="background: #00f2fe;"></span> Aliran Arus Aktif</div>
-          </div>
+            <!-- 2. Baterai 18650 -->
+            <div class="comp-node" id="node-battery" onclick="inspectComponent('battery')" onmouseenter="peekComponent('battery')">
+              <div style="font-size: 0.72rem; font-weight: 800; color: #34d399; margin-bottom: 4px;">
+                BATERAI 3.7V (18650 2500mAh)
+              </div>
+              <div class="battery-3d-cylinder">
+                <div class="battery-pos-terminal"></div>
+                <span class="battery-text-print">INR18650-25R</span>
+                <span class="battery-text-print" id="schBatPct">58%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; width: 100%; font-size: 0.7rem; font-weight: 700; color: #94a3b8; margin-top: 4px;">
+                <span id="schBatVolt">3.70 V</span>
+                <span id="schBatNetFlow" style="color: #38bdf8;">+0.65A Net</span>
+              </div>
+            </div>
 
+            <!-- 3. Modul Charger TP4056 -->
+            <div class="comp-node" id="node-tp4056" onclick="inspectComponent('tp4056')" onmouseenter="peekComponent('tp4056')">
+              <div class="tp-usb-port">USB</div>
+              <div class="tp-ic-chip">TP4056</div>
+              <div class="tp-led-row">
+                <div class="tp-led red-on" id="ledTpRed" title="LED Merah: Sedang Charging"></div>
+                <div class="tp-led" id="ledTpGreen" title="LED Hijau: Standby / Penuh"></div>
+              </div>
+              <div class="comp-label">MODUL CHARGER</div>
+            </div>
+
+            <!-- 4. Saklar Rocker -->
+            <div class="comp-node" id="node-switch" onclick="handleSwitchClick(event)" onmouseenter="peekComponent('switch')">
+              <div class="rocker-switch-btn" id="schSwitchVisual">
+                ON
+              </div>
+              <div class="comp-label" style="color: #fca5a5;">SAKLAR (CLICK)</div>
+            </div>
+
+            <!-- 5. Modul Step-Up MT3608 -->
+            <div class="comp-node" id="node-stepup" onclick="inspectComponent('stepup')" onmouseenter="peekComponent('stepup')">
+              <div class="stepup-pot">POT</div>
+              <div class="stepup-inductor">220</div>
+              <div class="comp-label">STEP UP 5V</div>
+              <div style="font-size: 0.65rem; color: #38bdf8; font-weight: 700; margin-top: 2px;" id="schStepUpStatus">
+                BOOST 5.0V
+              </div>
+            </div>
+
+            <!-- 6. Mini Voltmeter Digital 7-Segment -->
+            <div class="comp-node" id="node-voltmeter" onclick="inspectComponent('voltmeter')" onmouseenter="peekComponent('voltmeter')">
+              <div class="comp-label" style="margin-bottom: 4px; color: #6ee7b7;">VOLTMETER DIGITAL</div>
+              <div class="seven-segment-display" id="sevenSegVolt">
+                5.02
+              </div>
+            </div>
+
+            <!-- 7. Socket USB Output -->
+            <div class="comp-node" id="node-usb" onclick="inspectComponent('usb')" onmouseenter="peekComponent('usb')">
+              <div class="usb-port-metal">USB-A</div>
+              <div class="comp-label">SOCKET USB</div>
+              <div style="font-size: 0.65rem; color: #c084fc; font-weight: 700; margin-top: 2px;" id="schUsbOutReadout">
+                5.0V / 1.2A
+              </div>
+            </div>
+
+            <!-- 8. Interactive Smartphone Lockscreen Mockup -->
+            <div class="comp-node" id="node-phone" onclick="inspectComponent('phone')" onmouseenter="peekComponent('phone')">
+              <div class="phone-speaker-slit"></div>
+              <div class="phone-screen-inner">
+                <div class="phone-top-bar">
+                  <span>SIM 1</span>
+                  <span id="phoneTopBatIcon">⚡ 42%</span>
+                </div>
+                <div style="text-align: center;">
+                  <div class="phone-clock-text" id="phoneLiveClock">19:21</div>
+                  <div class="phone-date-text" id="phoneLiveDate">Rabu, 26 Agustus</div>
+                </div>
+                
+                <div class="phone-charging-visual-box">
+                  <div class="charging-glow-circle" id="phoneAnimCircle">⚡</div>
+                  <div class="phone-battery-pct-big" id="phoneBatPctBig">42%</div>
+                </div>
+
+                <div class="phone-status-caption" id="phoneLiveStatusCaption">
+                  Fast Charging • 6.0W
+                </div>
+                <div class="phone-bottom-home-bar"></div>
+              </div>
+            </div>
+
+            <!-- Schematic Bottom Legend -->
+            <div class="schematic-legend">
+              <div><span class="legend-bullet" style="background: #ef4444;"></span> Jalur Positif (+)</div>
+              <div><span class="legend-bullet" style="background: #e2e8f0;"></span> Jalur Ground / Negatif (-)</div>
+              <div><span class="legend-bullet" style="background: #00f2fe;"></span> Aliran Arus Aktif</div>
+            </div>
+
+          </div>
         </div>
       </div>
 
@@ -1647,7 +1875,7 @@
             <span id="solarWattVal">3.58</span>
             <span class="card-unit">W</span>
           </div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" id="solarSubMetric">
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;" id="solarSubMetric">
             5.50V @ 0.65A
           </div>
           <div class="card-bar-bg">
@@ -1665,8 +1893,8 @@
             <span id="voltVal">3.70</span>
             <span class="card-unit">V</span>
           </div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
-            Rentang Operasi: 3.0V - 4.2V
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+            Rentang: 3.0V - 4.2V
           </div>
           <div class="card-bar-bg">
             <div class="card-bar-fill" id="voltBar" style="background: var(--accent-blue); width: 58%;"></div>
@@ -1676,15 +1904,15 @@
         <!-- Card 3: Arus Beban USB HP -->
         <div class="metric-card-modern">
           <div class="card-top">
-            <span class="card-title">Arus Output USB (HP)</span>
+            <span class="card-title">Arus USB (HP)</span>
             <div class="card-icon-small" style="color: var(--cyan-glow);">⚡</div>
           </div>
           <div class="card-main-val">
             <span id="ampVal">1.20</span>
             <span class="card-unit">A</span>
           </div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" id="usbVoltsText">
-            Regulasi Step-Up 5.05 V
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;" id="usbVoltsText">
+            Regulasi 5.05 V
           </div>
           <div class="card-bar-bg">
             <div class="card-bar-fill" id="ampBar" style="background: var(--cyan-glow); width: 48%;"></div>
@@ -1701,8 +1929,8 @@
             <span id="wattVal">6.00</span>
             <span class="card-unit">W</span>
           </div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
-            Efisiensi Step-Up: ~89%
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+            Efisiensi: ~89%
           </div>
           <div class="card-bar-bg">
             <div class="card-bar-fill" id="wattBar" style="background: var(--accent-purple); width: 55%;"></div>
@@ -1712,15 +1940,15 @@
         <!-- Card 5: Net Arus Baterai -->
         <div class="metric-card-modern">
           <div class="card-top">
-            <span class="card-title">Arus Bersih (Net In/Out)</span>
+            <span class="card-title">Arus Bersih (Net)</span>
             <div class="card-icon-small" style="color: #10b981;">⚖️</div>
           </div>
           <div class="card-main-val">
             <span id="netAmpVal">-0.95</span>
             <span class="card-unit">A</span>
           </div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;" id="netFlowModeText">
-            Discharging (Baterai Terkuras)
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;" id="netFlowModeText">
+            Discharging
           </div>
           <div class="card-bar-bg">
             <div class="card-bar-fill" id="netBar" style="background: #10b981; width: 50%;"></div>
@@ -1730,15 +1958,15 @@
         <!-- Card 6: Kapasitas Persen -->
         <div class="metric-card-modern">
           <div class="card-top">
-            <span class="card-title">State of Charge (SoC)</span>
+            <span class="card-title">Kapasitas (SoC)</span>
             <div class="card-icon-small" style="color: #10b981;">📊</div>
           </div>
           <div class="card-main-val">
             <span id="pctVal">58</span>
             <span class="card-unit">%</span>
           </div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
-            Li-Ion 1S 1P Cell
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+            Li-Ion 1S Cell
           </div>
           <div class="card-bar-bg">
             <div class="card-bar-fill" id="pctBar" style="background: #10b981; width: 58%;"></div>
@@ -1756,18 +1984,18 @@
           <span>📈</span>
           <span>Grafis Telemetri Multi-Channel Real-Time</span>
         </div>
-        <div style="display: flex; gap: 1rem; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); flex-wrap: wrap;">
+        <div style="display: flex; gap: 0.85rem; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); flex-wrap: wrap;">
           <div style="display: flex; align-items: center; gap: 5px;">
-            <span style="display:inline-block; width: 9px; height: 9px; border-radius: 50%; background: #38bdf8;"></span>
-            <span>Tegangan Baterai (V)</span>
+            <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #38bdf8;"></span>
+            <span>Tegangan (V)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 5px;">
-            <span style="display:inline-block; width: 9px; height: 9px; border-radius: 50%; background: #f59e0b;"></span>
-            <span>Arus Panel Surya (A)</span>
+            <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;"></span>
+            <span>Surya (A)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 5px;">
-            <span style="display:inline-block; width: 9px; height: 9px; border-radius: 50%; background: #c084fc;"></span>
-            <span>Arus Beban HP Out (A)</span>
+            <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #c084fc;"></span>
+            <span>Beban HP (A)</span>
           </div>
         </div>
       </div>
@@ -1781,7 +2009,7 @@
       <div class="panel-header">
         <div class="panel-title">
           <span>🧮</span>
-          <span>Kalkulator Lab & Estimasi Efisiensi Daya (Built-in Simulator Calculator)</span>
+          <span>Kalkulator Lab & Estimasi Efisiensi Daya</span>
         </div>
         <span style="font-size: 0.75rem; color: var(--text-muted);">
           Kalkulasi matematis berdasarkan fisika konversi daya
@@ -1869,10 +2097,10 @@
           </div>
           <input type="range" id="solarSlider" min="0" max="100" step="5" value="65">
           <div class="chip-group">
-            <button class="chip-btn" onclick="setSolarPreset(100)">☀️ Terik Maksimal (1.0A)</button>
-            <button class="chip-btn" onclick="setSolarPreset(50)">🌤️ Terang Sedang (0.5A)</button>
-            <button class="chip-btn" onclick="setSolarPreset(15)">💡 Cahaya Redup (0.15A)</button>
-            <button class="chip-btn" onclick="setSolarPreset(0)">🌙 Tidak Dijemur (0A)</button>
+            <button class="chip-btn" onclick="setSolarPreset(100)">☀️ Terik Maks (1.0A)</button>
+            <button class="chip-btn" onclick="setSolarPreset(50)">🌤️ Sedang (0.5A)</button>
+            <button class="chip-btn" onclick="setSolarPreset(15)">💡 Redup (0.15A)</button>
+            <button class="chip-btn" onclick="setSolarPreset(0)">🌙 Malam (0A)</button>
           </div>
         </div>
 
@@ -1885,8 +2113,8 @@
           <input type="range" id="loadSlider" min="0.0" max="2.4" step="0.1" value="1.2">
           <div class="chip-group">
             <button class="chip-btn" onclick="setLoadPreset(1.8)">⚡ Fast Charge (1.8A)</button>
-            <button class="chip-btn" onclick="setLoadPreset(1.0)">📱 Normal Charge (1.0A)</button>
-            <button class="chip-btn" onclick="setLoadPreset(0.5)">🔋 Low Power (0.5A)</button>
+            <button class="chip-btn" onclick="setLoadPreset(1.0)">📱 Normal (1.0A)</button>
+            <button class="chip-btn" onclick="setLoadPreset(0.5)">🔋 Low (0.5A)</button>
             <button class="chip-btn" onclick="setLoadPreset(0.0)">💤 Lepas HP (0A)</button>
           </div>
         </div>
@@ -1898,8 +2126,8 @@
             <span class="control-tag" id="switchControlTag" style="color: var(--accent-green);">ON (Aktif)</span>
           </div>
           <div style="display: flex; gap: 0.5rem;">
-            <button class="chip-btn" style="flex: 1; font-weight: 800;" id="btnSwOn" onclick="setSwitchState(true)">ON (Hubungkan Step-Up & USB)</button>
-            <button class="chip-btn" style="flex: 1; font-weight: 800;" id="btnSwOff" onclick="setSwitchState(false)">OFF (Putus Beban)</button>
+            <button class="chip-btn" style="flex: 1; font-weight: 800;" id="btnSwOn" onclick="setSwitchState(true)">ON (Hubungkan)</button>
+            <button class="chip-btn" style="flex: 1; font-weight: 800;" id="btnSwOff" onclick="setSwitchState(false)">OFF (Putus)</button>
           </div>
         </div>
 
@@ -1910,11 +2138,11 @@
             <span class="control-tag" id="injectBatTag">58% (3.70V)</span>
           </div>
           <div class="chip-group">
-            <button class="chip-btn" onclick="injectBattery(100)">100% Penuh (4.2V)</button>
-            <button class="chip-btn" onclick="injectBattery(75)">75% Baik (3.9V)</button>
-            <button class="chip-btn" onclick="injectBattery(50)">50% Normal (3.7V)</button>
-            <button class="chip-btn" onclick="injectBattery(15)">15% Lemah (3.3V)</button>
-            <button class="chip-btn" onclick="injectBattery(0)">0% Cutoff (3.0V)</button>
+            <button class="chip-btn" onclick="injectBattery(100)">100% Penuh</button>
+            <button class="chip-btn" onclick="injectBattery(75)">75% Baik</button>
+            <button class="chip-btn" onclick="injectBattery(50)">50% Normal</button>
+            <button class="chip-btn" onclick="injectBattery(15)">15% Lemah</button>
+            <button class="chip-btn" onclick="injectBattery(0)">0% Cutoff</button>
           </div>
         </div>
 
@@ -1952,6 +2180,7 @@
     let switchIsOn = true;
     let simSpeed = 1; // 1x, 10x, 60x
     let isPaused = false;
+    let schematicMode = 'auto'; // 'auto' (fit phone screen) or 'scroll' (100% full scale)
 
     // Phone State
     let phoneBatteryPct = 42.0; // Smartphone internal battery %
@@ -2058,8 +2287,56 @@
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
     }
-    window.addEventListener('resize', fitCanvas);
-    fitCanvas();
+
+    /* =========================================================================
+       DYNAMIC RESPONSIVE CIRCUIT AUTO-SCALER (FIT TO PHONE SCREEN)
+       ========================================================================= */
+    function autoScaleSchematic() {
+      const wrapper = document.getElementById('schematicWrapper');
+      const scaler = document.getElementById('schematicScaler');
+      if (!wrapper || !scaler) return;
+
+      const baseWidth = 960;
+      const baseHeight = 480;
+
+      if (schematicMode === 'auto') {
+        const availableWidth = wrapper.clientWidth - 16; // minus padding
+        const scale = Math.min(1, availableWidth / baseWidth);
+
+        scaler.style.transform = `scale(${scale})`;
+        scaler.style.transformOrigin = 'top center';
+        scaler.style.width = `${baseWidth}px`;
+        scaler.style.height = `${baseHeight}px`;
+        wrapper.style.height = `${Math.round(baseHeight * scale) + 16}px`;
+        wrapper.style.overflowX = 'hidden';
+      } else {
+        scaler.style.transform = 'scale(1)';
+        scaler.style.transformOrigin = 'top left';
+        scaler.style.width = `${baseWidth}px`;
+        scaler.style.height = `${baseHeight}px`;
+        wrapper.style.height = `${baseHeight + 20}px`;
+        wrapper.style.overflowX = 'auto';
+      }
+    }
+
+    function setSchematicMode(mode) {
+      schematicMode = mode;
+      document.getElementById('btnFitAuto').classList.toggle('active', mode === 'auto');
+      document.getElementById('btnFitScroll').classList.toggle('active', mode === 'scroll');
+      autoScaleSchematic();
+    }
+
+    window.addEventListener('resize', () => {
+      fitCanvas();
+      autoScaleSchematic();
+    });
+
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        fitCanvas();
+        autoScaleSchematic();
+      }, 200);
+    });
 
     /* =========================================================================
        EDUCATIONAL HOVER & CLICK EXPLAINER DATABASE
@@ -2337,7 +2614,6 @@
         ledTpGreen.className = 'tp-led';
       } else if (iSolar > 0.02 || socPct >= 98) {
         ledTpRed.className = 'tp-led';
-        ledTpGreen.className = 'tp-led';
         ledTpGreen.className = 'tp-led green-on';
       } else {
         ledTpRed.className = 'tp-led';
@@ -2378,7 +2654,7 @@
         phoneAnimCircle.innerHTML = '⚡';
         phoneAnimCircle.style.borderColor = '#818cf8';
         phoneAnimCircle.style.background = 'rgba(99, 102, 241, 0.2)';
-        phoneLiveStatusCaption.innerText = `${iUsb > 1.4 ? 'Fast Charging' : 'Standard Charge'} • ${pUsb.toFixed(1)}W`;
+        phoneLiveStatusCaption.innerText = `${iUsb > 1.4 ? 'Fast Charging' : 'Standard'} • ${pUsb.toFixed(1)}W`;
         phoneLiveStatusCaption.style.color = '#38bdf8';
       } else {
         phoneTopBatIcon.innerText = `🔋 ${phoneIntPct}%`;
@@ -2407,14 +2683,14 @@
 
       ampVal.innerText = iUsb.toFixed(2);
       ampBar.style.width = Math.min(100, (iUsb / 2.4 * 100)) + '%';
-      usbVoltsText.innerText = switchIsOn && !isCutoff ? `Regulasi Step-Up ${vUsb.toFixed(2)} V` : 'Output Terputus (0.00 V)';
+      usbVoltsText.innerText = switchIsOn && !isCutoff ? `Regulasi ${vUsb.toFixed(2)} V` : '0.00 V (OFF)';
 
       wattVal.innerText = pUsb.toFixed(2);
       wattBar.style.width = Math.min(100, (pUsb / 12.0 * 100)) + '%';
 
       netAmpVal.innerText = (iNet >= 0 ? '+' : '') + iNet.toFixed(2);
       netAmpVal.style.color = iNet >= 0 ? 'var(--accent-green)' : 'var(--accent-amber)';
-      netFlowModeText.innerText = iNet > 0.05 ? 'Charging (Mengisi Baterai)' : (iNet < -0.05 ? 'Discharging (Menguras)' : 'Netral (Seimbang)');
+      netFlowModeText.innerText = iNet > 0.05 ? 'Charging' : (iNet < -0.05 ? 'Discharging' : 'Netral');
       netBar.style.width = Math.min(100, Math.abs(iNet) / 2.0 * 100) + '%';
       netBar.style.background = iNet >= 0 ? 'var(--accent-green)' : 'var(--accent-amber)';
 
@@ -2430,13 +2706,13 @@
 
       // Battery Health & Time Estimation
       if (socPct > 70) {
-        healthStatus.innerText = 'Baterai Prima (100%)';
+        healthStatus.innerText = 'Prima (100%)';
         healthStatus.style.color = 'var(--accent-green)';
       } else if (socPct > 20) {
-        healthStatus.innerText = 'Kondisi Baik';
+        healthStatus.innerText = 'Baik';
         healthStatus.style.color = 'var(--cyan-glow)';
       } else {
-        healthStatus.innerText = 'Lemah! Perlu Dijemur';
+        healthStatus.innerText = 'Lemah! Dijemur';
         healthStatus.style.color = 'var(--accent-red)';
       }
 
@@ -2449,14 +2725,14 @@
         timeEst.innerText = `~${hoursToEmpty.toFixed(1)} Jam Sisa`;
         timeEst.style.color = 'var(--cyan-glow)';
       } else {
-        timeEst.innerText = 'Tak Terhingga (Standby)';
+        timeEst.innerText = 'Standby';
         timeEst.style.color = 'var(--text-muted)';
       }
 
       // Update Slider Tags
-      solarTag.innerText = `${iSolar.toFixed(2)} A (${solarPowerPct > 70 ? 'Terik Kuat' : (solarPowerPct > 30 ? 'Sedang' : (solarPowerPct > 0 ? 'Redup' : 'Malam / 0A'))})`;
+      solarTag.innerText = `${iSolar.toFixed(2)} A (${solarPowerPct > 70 ? 'Terik' : (solarPowerPct > 30 ? 'Sedang' : (solarPowerPct > 0 ? 'Redup' : '0A'))})`;
       loadTag.innerText = `${usbTargetAmp.toFixed(2)} A`;
-      switchControlTag.innerText = switchIsOn ? 'ON (Aktif)' : 'OFF (Terputus)';
+      switchControlTag.innerText = switchIsOn ? 'ON (Aktif)' : 'OFF (Putus)';
       switchControlTag.style.color = switchIsOn ? 'var(--accent-green)' : 'var(--accent-red)';
       injectBatTag.innerText = `${socPct}% (${vBat.toFixed(2)}V)`;
 
@@ -2475,17 +2751,17 @@
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
 
-      const paddingLeft = 38;
-      const paddingRight = 38;
-      const paddingTop = 15;
-      const paddingBottom = 20;
+      const paddingLeft = 32;
+      const paddingRight = 32;
+      const paddingTop = 12;
+      const paddingBottom = 16;
 
       const chartW = w - paddingLeft - paddingRight;
       const chartH = h - paddingTop - paddingBottom;
 
       // 1. Gridlines & Y-Axis Scale
       const gridRows = 4;
-      ctx.font = '600 10px "Plus Jakarta Sans", sans-serif';
+      ctx.font = '600 9px "Plus Jakarta Sans", sans-serif';
 
       for (let r = 0; r <= gridRows; r++) {
         const y = paddingTop + (chartH / gridRows) * r;
@@ -2504,13 +2780,13 @@
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = '#38bdf8';
-        ctx.fillText(vVal, paddingLeft - 6, y);
+        ctx.fillText(vVal, paddingLeft - 4, y);
 
         // Right: Current scale (0.0A to 2.5A)
         const iVal = (2.5 - (r / gridRows) * 2.5).toFixed(1) + 'A';
         ctx.textAlign = 'left';
         ctx.fillStyle = '#c084fc';
-        ctx.fillText(iVal, w - paddingRight + 6, y);
+        ctx.fillText(iVal, w - paddingRight + 4, y);
       }
 
       if (chartHistory.length < 2) return;
@@ -2630,6 +2906,7 @@
       setSimSpeed(1);
       updateUI();
       runLabCalculation();
+      autoScaleSchematic();
     }
 
     // Slider Event Listeners
@@ -2651,6 +2928,8 @@
     // Initial setups
     runLabCalculation();
     inspectComponent('solar');
+    fitCanvas();
+    autoScaleSchematic();
 
     // Main Simulation Loop (4 updates per second)
     setInterval(updateUI, 250);
