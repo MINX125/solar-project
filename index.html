@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Solar Powerbank X1 - Hardware Simulation, Lab Calculator & Telemetry Hub</title>
+  <title>Solar Powerbank X1 - Hardware Simulation, Lab Calculator, Telemetry & IoT Firmware Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Share+Tech+Mono&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -29,6 +29,8 @@
 
       --wire-pos: #ef4444;
       --wire-neg: #e2e8f0;
+      --wire-iot: #00f2fe;
+      --wire-i2c: #c084fc;
     }
 
     * {
@@ -111,8 +113,42 @@
     .nav-controls {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       flex-wrap: wrap;
+    }
+
+    .nav-link-btn {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--cyan-glow);
+      padding: 0.45rem 0.85rem;
+      border-radius: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .nav-link-btn:hover {
+      background: rgba(0, 242, 254, 0.25);
+      border-color: var(--cyan-glow);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn-cert {
+      background: rgba(245, 158, 11, 0.15) !important;
+      border-color: rgba(245, 158, 11, 0.4) !important;
+      color: #fbbf24 !important;
+    }
+
+    .nav-btn-cert:hover {
+      background: rgba(245, 158, 11, 0.25) !important;
+      border-color: #f59e0b !important;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.35);
     }
 
     .speed-selector {
@@ -375,6 +411,15 @@
       filter: drop-shadow(0 0 2px rgba(226, 232, 240, 0.4));
     }
 
+    .wire-iot {
+      stroke: var(--wire-iot);
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-dasharray: 4 4;
+      opacity: 0.85;
+    }
+
     .wire-pulse-pos {
       stroke: #fca5a5;
       stroke-width: 2.5;
@@ -382,6 +427,15 @@
       stroke-linecap: round;
       stroke-dasharray: 6 12;
       animation: dash-flow 0.8s linear infinite;
+    }
+
+    .wire-pulse-iot {
+      stroke: #a5f3fc;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-dasharray: 4 8;
+      animation: dash-flow 0.6s linear infinite;
     }
 
     @keyframes dash-flow {
@@ -533,10 +587,10 @@
 
     /* 3. TP4056 Charger Node */
     #node-tp4056 {
-      top: 130px;
-      left: 360px;
-      width: 110px;
-      height: 170px;
+      top: 55px;
+      left: 345px;
+      width: 125px;
+      height: 155px;
       background: #1e3a8a;
       border: 2px solid #3b82f6;
       border-radius: 8px;
@@ -559,7 +613,7 @@
 
     .tp-usb-port {
       width: 28px;
-      height: 22px;
+      height: 20px;
       background: #cbd5e1;
       border: 1px solid #64748b;
       border-radius: 3px;
@@ -574,12 +628,12 @@
     .tp-led-row {
       display: flex;
       gap: 12px;
-      margin: 6px 0;
+      margin: 4px 0;
     }
 
     .tp-led {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
       background: #334155;
       border: 1px solid #64748b;
@@ -598,49 +652,208 @@
       border-color: #6ee7b7;
     }
 
-    /* 4. Rocker Switch Node */
-    #node-switch {
-      top: 30px;
-      left: 540px;
-      width: 110px;
-      height: 80px;
+    /* 4. ESP32 Mini IoT MCU Node */
+    #node-esp32 {
+      top: 250px;
+      left: 335px;
+      width: 145px;
+      height: 180px;
       background: #0f172a;
-      border: 2px solid #ef4444;
-      border-radius: 8px;
-      padding: 6px;
-      transition: transform 0.15s ease;
+      border: 2px solid #06b6d4;
+      border-radius: 10px;
+      padding: 8px 6px;
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
     }
 
-    .rocker-switch-btn {
-      width: 76px;
-      height: 42px;
+    .esp32-antenna {
+      width: 60px;
+      height: 16px;
+      background: repeating-linear-gradient(90deg, #f59e0b, #f59e0b 3px, #0f172a 3px, #0f172a 6px);
+      border-radius: 3px;
+      border: 1px solid #f59e0b;
+      margin-bottom: 4px;
+    }
+
+    .esp32-shield {
+      width: 78px;
+      height: 52px;
+      background: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 50%, #64748b 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 0.6rem;
+      box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .esp32-shield span {
+      font-size: 0.52rem;
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    .esp32-led-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .esp32-led-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .esp32-led-pwr {
       background: #ef4444;
-      border-radius: 6px;
-      border: 3px solid #7f1d1d;
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    .esp32-led-wifi {
+      background: #00f2fe;
+      box-shadow: 0 0 8px #00f2fe;
+      animation: wifiBlink 1s infinite alternate;
+    }
+
+    @keyframes wifiBlink {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    .esp32-live-badge {
+      font-size: 0.6rem;
+      color: var(--cyan-glow);
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      margin-top: 3px;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* 5. REALISTIC ROCKER SWITCH WITH 'I' & 'O' SYMBOLS */
+    #node-switch {
+      top: 30px;
+      left: 530px;
+      width: 115px;
+      height: 85px;
+      background: #090d16;
+      border: 2px solid #ef4444;
+      border-radius: 10px;
+      padding: 6px;
+      transition: transform 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .rocker-bezel {
+      width: 86px;
+      height: 48px;
+      background: #020617;
+      border: 2px solid #334155;
+      border-radius: 7px;
+      display: flex;
+      padding: 3px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .rocker-paddle {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .rocker-half {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
+      font-family: 'Arial', sans-serif;
+      font-size: 1.05rem;
       font-weight: 900;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-      box-shadow: inset 0 4px 6px rgba(255, 255, 255, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      position: relative;
     }
 
-    .rocker-switch-btn.sw-off {
-      background: #475569;
-      border-color: #1e293b;
-      box-shadow: inset 0 -4px 6px rgba(255, 255, 255, 0.1), inset 0 4px 6px rgba(0, 0, 0, 0.6);
+    /* Side I (ON - Connected) */
+    .rocker-half-i {
+      background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+      color: #ffffff;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.8), 0 2px 2px rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.5), inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Side O (OFF - Disconnected) */
+    .rocker-half-o {
+      background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
       color: #94a3b8;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+      box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.2), inset 0 -2px 4px rgba(0, 0, 0, 0.6);
     }
 
-    /* 5. Step Up Converter Node */
+    /* When Switch is ON */
+    .rocker-paddle.state-on .rocker-half-i {
+      background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+      color: #ffffff;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4), 0 0 12px rgba(239, 68, 68, 0.7);
+      transform: scale(0.96);
+    }
+
+    .rocker-paddle.state-on .rocker-half-o {
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      color: #64748b;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1);
+      transform: scale(1.02);
+      filter: brightness(0.7);
+    }
+
+    /* When Switch is OFF */
+    .rocker-paddle.state-off .rocker-half-i {
+      background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
+      color: #7f1d1d;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+      transform: scale(1.02);
+      filter: brightness(0.6);
+      text-shadow: none;
+    }
+
+    .rocker-paddle.state-off .rocker-half-o {
+      background: linear-gradient(180deg, #64748b 0%, #334155 100%);
+      color: #f1f5f9;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6), 0 0 8px rgba(148, 163, 184, 0.4);
+      transform: scale(0.96);
+    }
+
+    .rocker-divider-groove {
+      position: absolute;
+      top: 15%;
+      bottom: 15%;
+      left: 50%;
+      width: 2px;
+      background: #0f172a;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    /* 6. Step Up Converter Node */
     #node-stepup {
-      top: 150px;
-      left: 540px;
+      top: 145px;
+      left: 530px;
       width: 110px;
-      height: 160px;
+      height: 155px;
       background: #1e3a8a;
       border: 2px solid #0284c7;
       border-radius: 8px;
@@ -648,8 +861,8 @@
     }
 
     .stepup-inductor {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: #0f172a;
       border: 2px solid #475569;
@@ -663,8 +876,8 @@
     }
 
     .stepup-pot {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       background: #0284c7;
       border: 1px solid #38bdf8;
       border-radius: 4px;
@@ -675,10 +888,10 @@
       color: #fff;
     }
 
-    /* 6. Mini 7-Segment Voltmeter Node */
+    /* 7. Mini Voltmeter Digital 7-Segment Node */
     #node-voltmeter {
       top: 30px;
-      left: 720px;
+      left: 710px;
       width: 140px;
       height: 90px;
       background: #020617;
@@ -710,12 +923,12 @@
       background: #02120d;
     }
 
-    /* 7. USB Output */
+    /* 8. USB Output */
     #node-usb {
-      top: 290px;
-      left: 540px;
-      width: 120px;
-      height: 110px;
+      top: 320px;
+      left: 530px;
+      width: 110px;
+      height: 105px;
       background: #0f172a;
       border: 2px solid #a855f7;
       border-radius: 8px;
@@ -724,7 +937,7 @@
 
     .usb-port-metal {
       width: 44px;
-      height: 28px;
+      height: 26px;
       background: #e2e8f0;
       border: 2px solid #64748b;
       border-radius: 4px;
@@ -737,12 +950,12 @@
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
     }
 
-    /* 8. Interactive Smartphone Lockscreen Mockup */
+    /* 9. Interactive Smartphone Lockscreen Mockup */
     #node-phone {
-      top: 230px;
-      left: 720px;
-      width: 205px;
-      height: 225px;
+      top: 215px;
+      left: 710px;
+      width: 215px;
+      height: 235px;
       background: #090d16;
       border: 3px solid #6366f1;
       border-radius: 24px;
@@ -765,7 +978,7 @@
 
     .phone-screen-inner {
       width: 100%;
-      height: 175px;
+      height: 185px;
       background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #030712 100%);
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -857,24 +1070,25 @@
     /* Schematic Bottom Legend */
     .schematic-legend {
       display: flex;
-      gap: 1.25rem;
+      gap: 1.15rem;
       background: rgba(2, 6, 23, 0.85);
       border: 1px solid var(--panel-border);
       border-radius: 0.75rem;
-      padding: 0.5rem 1rem;
+      padding: 0.45rem 0.9rem;
       position: absolute;
-      bottom: 12px;
+      bottom: 10px;
       left: 12px;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       color: var(--text-muted);
       z-index: 20;
+      flex-wrap: wrap;
     }
 
     .legend-bullet {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       margin-right: 4px;
       vertical-align: middle;
@@ -1325,6 +1539,535 @@
     }
 
     /* =========================================================================
+       IoT FIRMWARE TAB SECTION
+       ========================================================================= */
+    .firmware-header-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+
+    .fw-tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--panel-border);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+    }
+
+    .fw-tab-btn.active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2) 0%, rgba(56, 189, 248, 0.2) 100%);
+      border-color: var(--cyan-glow);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+    }
+
+    .fw-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #090d16;
+      border: 1px solid var(--panel-border);
+      border-bottom: none;
+      border-radius: 0.75rem 0.75rem 0 0;
+      padding: 0.6rem 1rem;
+      font-size: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .fw-file-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: #a5b4fc;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+    }
+
+    .fw-btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .fw-action-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--panel-border);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .fw-action-btn:hover {
+      background: rgba(0, 242, 254, 0.2);
+      border-color: var(--cyan-glow);
+      color: var(--cyan-glow);
+    }
+
+    .code-container-pre {
+      background: #060911;
+      border: 1px solid var(--panel-border);
+      border-radius: 0 0 0.75rem 0.75rem;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Share Tech Mono', Consolas, monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      max-height: 480px;
+      overflow-y: auto;
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
+    }
+
+    .code-container-pre code {
+      font-family: inherit;
+    }
+
+    .c-kw { color: #f472b6; font-weight: 700; }
+    .c-type { color: #38bdf8; font-weight: 700; }
+    .c-func { color: #60a5fa; }
+    .c-str { color: #a7f3d0; }
+    .c-num { color: #fbbf24; }
+    .c-com { color: #64748b; font-style: italic; }
+    .c-prep { color: #c084fc; font-weight: 700; }
+
+    .pinout-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      text-align: left;
+      margin-top: 0.5rem;
+    }
+
+    .pinout-table th {
+      background: rgba(30, 41, 59, 0.8);
+      color: var(--cyan-glow);
+      padding: 0.75rem 1rem;
+      font-weight: 800;
+      border-bottom: 2px solid var(--panel-border);
+    }
+
+    .pinout-table td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--panel-border);
+      color: #cbd5e1;
+    }
+
+    .pinout-table tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .pin-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      padding: 0.15rem 0.5rem;
+      border-radius: 0.4rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* =========================================================================
+       QC PASSED DIGITAL CERTIFICATE MODAL
+       ========================================================================= */
+    .cert-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .cert-modal-card {
+      background: #090d16;
+      border: 2px solid #d97706;
+      border-radius: 1.5rem;
+      max-width: 820px;
+      width: 100%;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 0 50px rgba(245, 158, 11, 0.25), 0 25px 50px rgba(0, 0, 0, 0.9);
+      position: relative;
+      animation: certPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes certPop {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .cert-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--panel-border);
+      color: #94a3b8;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .cert-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border-color: #ef4444;
+    }
+
+    .cert-frame {
+      border: 2px solid rgba(245, 158, 11, 0.45);
+      border-radius: 1.15rem;
+      padding: 2rem 1.8rem;
+      background: radial-gradient(circle at 50% 15%, rgba(245, 158, 11, 0.06) 0%, rgba(15, 23, 42, 0.4) 60%, rgba(2, 6, 23, 0.8) 100%);
+      position: relative;
+      text-align: center;
+    }
+
+    .cert-corner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: #f59e0b;
+      border-style: solid;
+    }
+    .cert-corner.tl { top: 6px; left: 6px; border-width: 3px 0 0 3px; }
+    .cert-corner.tr { top: 6px; right: 6px; border-width: 3px 3px 0 0; }
+    .cert-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 3px 3px; }
+    .cert-corner.br { bottom: 6px; right: 6px; border-width: 0 3px 3px 0; }
+
+    .cert-top-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fbbf24;
+      letter-spacing: 0.15em;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .cert-main-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.08em;
+      background: linear-gradient(180deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.25rem;
+    }
+
+    .cert-sub-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--cyan-glow);
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .cert-divider-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #f59e0b, #00f2fe, transparent);
+      margin: 0.75rem auto 1.25rem auto;
+      max-width: 450px;
+    }
+
+    .cert-recipient-text {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    .cert-student-name {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+      margin: 0.4rem 0 0.2rem 0;
+      text-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+    }
+
+    .cert-student-class {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.85rem;
+    }
+
+    .cert-project-name {
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      font-weight: 600;
+      max-width: 600px;
+      margin: 0 auto 1.4rem auto;
+      line-height: 1.4;
+    }
+
+    /* Test Matrix Inside Certificate */
+    .cert-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.65rem;
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px solid var(--panel-border);
+      border-radius: 0.85rem;
+      padding: 0.95rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .matrix-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .m-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .m-val {
+      font-size: 0.82rem;
+      font-weight: 800;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .m-val.pass {
+      color: var(--accent-green);
+    }
+
+    /* Certificate Footer Row */
+    .cert-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 1.25rem;
+    }
+
+    .cert-date-box {
+      text-align: left;
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cert-date-label { color: var(--text-muted); font-size: 0.7rem; }
+    .cert-date-val { color: #fff; font-weight: 700; }
+    .cert-serial { color: #f59e0b; font-family: 'Fira Code', monospace; font-size: 0.68rem; font-weight: 700; }
+
+    /* Verified Gold/Green Stamp */
+    .qc-stamp-badge {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px dashed #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.05) 100%);
+      transform: rotate(-10deg);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .qc-stamp-inner {
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: #10b981;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .qc-stamp-inner small {
+      font-size: 0.52rem;
+      color: #34d399;
+      margin: 2px 0;
+    }
+
+    .cert-sign-box {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .cert-sign-line {
+      font-family: 'Cinzel', cursive, serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      border-bottom: 2px solid #38bdf8;
+      padding-bottom: 2px;
+      margin-bottom: 4px;
+    }
+
+    .cert-sign-role {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .cert-action-bar-modal {
+      display: flex;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cert-btn-print {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #020617;
+      font-weight: 800;
+      border: none;
+      padding: 0.65rem 1.4rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cert-btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    .cert-btn-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--panel-border);
+      color: var(--text-main);
+      font-weight: 700;
+      padding: 0.65rem 1.2rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .cert-btn-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Print Stylesheet for Certificate */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certModal, #certModal * {
+        visibility: visible;
+      }
+      #certModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: #fff !important;
+        padding: 0;
+        display: block !important;
+      }
+      .cert-modal-card {
+        border: 2px solid #000 !important;
+        box-shadow: none !important;
+        color: #000 !important;
+        max-width: 100% !important;
+      }
+      .cert-frame {
+        border-color: #000 !important;
+        background: none !important;
+      }
+      .cert-main-title {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+      }
+      .cert-student-name {
+        color: #000 !important;
+      }
+      .cert-action-bar-modal, .cert-close-btn {
+        display: none !important;
+      }
+    }
+
+    /* Toast Alert Notification */
+    .toast-alert {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(16, 185, 129, 0.5);
+      z-index: 10000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toast-alert.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================================================
        STUDENT PROJECT FOOTER (M KHOIRUL FAHMI XI C - TEKNIK INFORMATIKA)
        ========================================================================= */
     .app-footer {
@@ -1404,7 +2147,7 @@
     }
 
     /* =========================================================================
-       MOBILE OPTIMIZATIONS (PAS DI LAYAR HP)
+       MOBILE OPTIMIZATIONS
        ========================================================================= */
     @media (max-width: 640px) {
       body {
@@ -1542,6 +2285,38 @@
         text-align: center;
       }
 
+      .code-container-pre {
+        font-size: 0.73rem;
+        padding: 0.85rem;
+      }
+
+      .cert-modal-card {
+        padding: 1.2rem 0.85rem;
+      }
+
+      .cert-frame {
+        padding: 1.25rem 0.85rem;
+      }
+
+      .cert-main-title {
+        font-size: 1.25rem;
+      }
+
+      .cert-student-name {
+        font-size: 1.35rem;
+      }
+
+      .cert-footer-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .cert-date-box, .cert-sign-box {
+        text-align: center;
+        align-items: center;
+      }
+
       .app-footer {
         padding: 1.25rem 0.9rem;
       }
@@ -1562,11 +2337,21 @@
         <div class="brand-icon">⚡</div>
         <div class="brand-text">
           <h1>SOLAR MON X1</h1>
-          <p>Interactive Hardware Lab, Calculator & Telemetry Hub</p>
+          <p>Interactive Hardware Lab, Calculator & IoT Firmware Hub</p>
         </div>
       </div>
 
       <div class="nav-controls">
+        <!-- Certificate QC Passed Button -->
+        <button class="nav-link-btn nav-btn-cert" onclick="openCertificateModal()">
+          <span>🏆</span> Sertifikat QC
+        </button>
+
+        <!-- Quick Jump to IoT Firmware Button -->
+        <a href="#firmwareSection" class="nav-link-btn">
+          <span>💻</span> Kode Firmware IoT
+        </a>
+
         <!-- Simulation Speed Multiplier -->
         <div class="speed-selector">
           <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted); padding-left: 6px;">SPEED:</span>
@@ -1589,7 +2374,7 @@
         <div class="status-icon-box" id="statusIcon">⚡</div>
         <div class="status-banner-info">
           <h2 id="statusTitle">Sistem Siap Beroperasi</h2>
-          <p id="statusDesc">Energi mengalir secara seimbang antara panel surya, baterai, dan output USB.</p>
+          <p id="statusDesc">Energi mengalir secara seimbang antara panel surya, baterai, modul ESP32, dan output USB.</p>
         </div>
       </div>
       <div class="status-tags">
@@ -1597,17 +2382,17 @@
           Net: +0.00 A (Standby)
         </div>
         <div class="status-tag-badge" id="tagSwitchState" style="color: var(--accent-green); border-color: rgba(16, 185, 129, 0.3);">
-          Saklar: ON
+          Saklar: [ I ] ON
         </div>
       </div>
     </div>
 
-    <!-- 3. Interactive Circuit Diagram (Corel DRAW Hardware Accurate) -->
+    <!-- 3. Interactive Circuit Diagram (Corel DRAW Hardware Accurate + ESP32 MINI + ROCKER SWITCH I / O) -->
     <div class="glass-panel">
       <div class="panel-header">
         <div class="panel-title">
           <span>⚡</span>
-          <span>Diagram Rangkaian Interaktif (Klik Komponen untuk Penjelasan)</span>
+          <span>Diagram Rangkaian Interaktif dengan ESP32 Mini IoT & Saklar Rocker (I / O)</span>
         </div>
         <span style="font-size: 0.75rem; color: var(--cyan-glow); font-weight: 600;">
           💡 Mode Edukasi Aktif: Arahkan kursor / Klik komponen
@@ -1627,50 +2412,60 @@
         <div class="schematic-scaler" id="schematicScaler">
           <div class="schematic-stage" id="schematicStage">
             
-            <!-- SVG Dynamic Wires & Current Pulse Flow -->
+            <!-- SVG Dynamic Wires, Sensor Taps & Current Pulse Flow -->
             <svg class="circuit-svg" viewBox="0 0 960 480">
               <!-- 1. Positive Wires (Red) -->
               <!-- Solar Pos -> TP4056 IN+ -->
-              <path d="M 230 75 L 340 75 L 340 160 L 375 160" class="wire-pos"></path>
+              <path d="M 230 75 L 340 75 L 340 100 L 345 100" class="wire-pos"></path>
               <!-- TP4056 BAT+ -> Battery Pos -->
-              <path d="M 445 160 L 515 160 L 515 345 L 60 345" class="wire-pos"></path>
+              <path d="M 445 100 L 505 100 L 505 345 L 60 345" class="wire-pos"></path>
               <!-- Battery Pos Tap -> Switch Pin 1 -->
-              <path d="M 515 160 L 515 65 L 555 65" class="wire-pos"></path>
+              <path d="M 505 100 L 505 65 L 530 65" class="wire-pos"></path>
               <!-- Switch Pin 2 -> Step-Up VIN+ -->
-              <path d="M 635 65 L 665 65 L 665 190 L 635 190" class="wire-pos"></path>
+              <path d="M 610 65 L 650 65 L 650 185 L 620 185" class="wire-pos"></path>
               <!-- Step-Up VOUT+ -> Voltmeter VCC & USB +5V -->
-              <path d="M 635 270 L 690 270 L 690 65 L 735 65" class="wire-pos" id="wireStepUpToVoltPos"></path>
-              <path d="M 690 270 L 690 345 L 645 345" class="wire-pos" id="wireStepUpToUsbPos"></path>
+              <path d="M 620 265 L 675 265 L 675 65 L 710 65" class="wire-pos" id="wireStepUpToVoltPos"></path>
+              <path d="M 675 265 L 675 355 L 635 355" class="wire-pos" id="wireStepUpToUsbPos"></path>
               <!-- USB Socket -> Phone Load -->
-              <path d="M 645 345 L 735 345" class="wire-pos" id="wireUsbToPhonePos"></path>
+              <path d="M 635 355 L 710 355" class="wire-pos" id="wireUsbToPhonePos"></path>
 
               <!-- 2. Negative Wires (White/Silver) -->
               <!-- Solar Neg -> TP4056 IN- -->
-              <path d="M 230 195 L 360 195 L 360 250 L 375 250" class="wire-neg"></path>
+              <path d="M 230 185 L 320 185 L 320 160 L 345 160" class="wire-neg"></path>
               <!-- TP4056 BAT- -> Battery Neg -->
-              <path d="M 445 250 L 485 250 L 485 385 L 270 385" class="wire-neg"></path>
+              <path d="M 445 160 L 485 160 L 485 385 L 270 385" class="wire-neg"></path>
               <!-- Battery Neg Tap -> Step-Up VIN- -->
-              <path d="M 485 250 L 555 250" class="wire-neg"></path>
+              <path d="M 485 160 L 530 185" class="wire-neg"></path>
               <!-- Step-Up VOUT- -> Voltmeter GND & USB GND -->
-              <path d="M 555 285 L 515 285 L 515 425 L 710 425 L 710 85 L 735 85" class="wire-neg"></path>
-              <path d="M 710 385 L 645 385" class="wire-neg"></path>
+              <path d="M 530 265 L 495 265 L 495 440 L 690 440 L 690 85 L 710 85" class="wire-neg"></path>
+              <path d="M 690 385 L 635 385" class="wire-neg"></path>
               <!-- USB GND -> Phone Load -->
-              <path d="M 645 385 L 735 385" class="wire-neg"></path>
+              <path d="M 635 385 L 710 385" class="wire-neg"></path>
 
-              <!-- 3. Animated Flow Overlays (Dynamic Energy Transfer) -->
-              <path d="M 230 75 L 340 75 L 340 160 L 375 160" class="wire-pulse-pos" id="pulseSolarPos"></path>
-              <path d="M 445 160 L 515 160 L 515 345 L 60 345" class="wire-pulse-pos" id="pulseBatChargePos"></path>
-              
-              <path d="M 515 160 L 515 65 L 555 65" class="wire-pulse-pos" id="pulseSwitchInPos"></path>
-              <path d="M 635 65 L 665 65 L 665 190 L 635 190" class="wire-pulse-pos" id="pulseStepUpInPos"></path>
-              <path d="M 690 270 L 690 345 L 735 345" class="wire-pulse-pos" id="pulseUsbOutPos"></path>
+              <!-- 3. IoT Sensor & Telemetry Data Lines for ESP32 (Cyan & Purple) -->
+              <!-- Battery Voltage Tap -> ESP32 ADC (GPIO34) -->
+              <path d="M 505 345 L 480 345" class="wire-iot"></path>
+              <!-- Solar Voltage Tap -> ESP32 ADC (GPIO35) -->
+              <path d="M 340 75 L 340 250" class="wire-iot"></path>
+              <!-- ESP32 I2C / Power line to USB Bus -->
+              <path d="M 480 395 L 530 395" class="wire-iot" style="stroke: #c084fc; stroke-dasharray: 3 3;"></path>
+
+              <!-- 4. Animated Flow Overlays (Dynamic Energy Transfer) -->
+              <path d="M 230 75 L 340 75 L 340 100 L 345 100" class="wire-pulse-pos" id="pulseSolarPos"></path>
+              <path d="M 445 100 L 505 100 L 505 345 L 60 345" class="wire-pulse-pos" id="pulseBatChargePos"></path>
+              <path d="M 505 100 L 505 65 L 530 65" class="wire-pulse-pos" id="pulseSwitchInPos"></path>
+              <path d="M 610 65 L 650 65 L 650 185 L 620 185" class="wire-pulse-pos" id="pulseStepUpInPos"></path>
+              <path d="M 675 265 L 675 355 L 710 355" class="wire-pulse-pos" id="pulseUsbOutPos"></path>
+              <!-- ESP32 Telemetry Pulse -->
+              <path d="M 505 345 L 480 345" class="wire-pulse-iot" id="pulseEsp32Iot"></path>
 
               <!-- Junction Dots -->
               <circle cx="340" cy="75" class="junction-dot"></circle>
-              <circle cx="515" cy="160" class="junction-dot"></circle>
-              <circle cx="690" cy="270" class="junction-dot"></circle>
-              <circle cx="485" cy="250" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
-              <circle cx="710" cy="385" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
+              <circle cx="505" cy="100" class="junction-dot"></circle>
+              <circle cx="675" cy="265" class="junction-dot"></circle>
+              <circle cx="485" cy="160" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
+              <circle cx="690" cy="385" style="fill:#e2e8f0; stroke:#000;" r="4"></circle>
+              <circle cx="505" cy="345" style="fill:#00f2fe; stroke:#fff;" r="3.5"></circle>
             </svg>
 
             <!-- Component Nodes -->
@@ -1720,15 +2515,36 @@
               <div class="comp-label">MODUL CHARGER</div>
             </div>
 
-            <!-- 4. Saklar Rocker -->
-            <div class="comp-node" id="node-switch" onclick="handleSwitchClick(event)" onmouseenter="peekComponent('switch')">
-              <div class="rocker-switch-btn" id="schSwitchVisual">
-                ON
+            <!-- 4. ESP32 Mini IoT MCU -->
+            <div class="comp-node" id="node-esp32" onclick="inspectComponent('esp32')" onmouseenter="peekComponent('esp32')">
+              <div class="esp32-antenna"></div>
+              <div class="esp32-shield">
+                <span>ESP-WROOM-32</span>
+                <strong>ESP32 MINI</strong>
               </div>
-              <div class="comp-label" style="color: #fca5a5;">SAKLAR (CLICK)</div>
+              <div class="esp32-led-row">
+                <div class="esp32-led-dot esp32-led-pwr" title="Power LED (3.3V)"></div>
+                <div class="esp32-led-dot esp32-led-wifi" title="WiFi Telemetry Active"></div>
+              </div>
+              <div class="comp-label" style="color: var(--cyan-glow); margin-top: 2px;">ESP32 IoT MCU</div>
+              <div class="esp32-live-badge" id="schEsp32Status">WiFi: 192.168.4.1<br>ADC: 3.70V</div>
             </div>
 
-            <!-- 5. Modul Step-Up MT3608 -->
+            <!-- 5. REALISTIC ROCKER SWITCH WITH 'I' & 'O' SYMBOLS -->
+            <div class="comp-node" id="node-switch" onclick="handleSwitchClick(event)" onmouseenter="peekComponent('switch')">
+              <div class="rocker-bezel">
+                <div class="rocker-paddle state-on" id="schRockerPaddle">
+                  <div class="rocker-half rocker-half-i" title="I = ON (Sirkuit Tertutup / Terhubung)">I</div>
+                  <div class="rocker-divider-groove"></div>
+                  <div class="rocker-half rocker-half-o" title="O = OFF (Sirkuit Terbuka / Terputus)">O</div>
+                </div>
+              </div>
+              <div class="comp-label" style="color: #fca5a5; font-size: 0.65rem;" id="schSwitchCaption">
+                SAKLAR: [ I ] ON
+              </div>
+            </div>
+
+            <!-- 6. Modul Step-Up MT3608 -->
             <div class="comp-node" id="node-stepup" onclick="inspectComponent('stepup')" onmouseenter="peekComponent('stepup')">
               <div class="stepup-pot">POT</div>
               <div class="stepup-inductor">220</div>
@@ -1738,7 +2554,7 @@
               </div>
             </div>
 
-            <!-- 6. Mini Voltmeter Digital 7-Segment -->
+            <!-- 7. Mini Voltmeter Digital 7-Segment -->
             <div class="comp-node" id="node-voltmeter" onclick="inspectComponent('voltmeter')" onmouseenter="peekComponent('voltmeter')">
               <div class="comp-label" style="margin-bottom: 4px; color: #6ee7b7;">VOLTMETER DIGITAL</div>
               <div class="seven-segment-display" id="sevenSegVolt">
@@ -1746,7 +2562,7 @@
               </div>
             </div>
 
-            <!-- 7. Socket USB Output -->
+            <!-- 8. Socket USB Output -->
             <div class="comp-node" id="node-usb" onclick="inspectComponent('usb')" onmouseenter="peekComponent('usb')">
               <div class="usb-port-metal">USB-A</div>
               <div class="comp-label">SOCKET USB</div>
@@ -1755,7 +2571,7 @@
               </div>
             </div>
 
-            <!-- 8. Interactive Smartphone Lockscreen Mockup -->
+            <!-- 9. Interactive Smartphone Lockscreen Mockup -->
             <div class="comp-node" id="node-phone" onclick="inspectComponent('phone')" onmouseenter="peekComponent('phone')">
               <div class="phone-speaker-slit"></div>
               <div class="phone-screen-inner">
@@ -1783,8 +2599,9 @@
             <!-- Schematic Bottom Legend -->
             <div class="schematic-legend">
               <div><span class="legend-bullet" style="background: #ef4444;"></span> Jalur Positif (+)</div>
-              <div><span class="legend-bullet" style="background: #e2e8f0;"></span> Jalur Ground / Negatif (-)</div>
-              <div><span class="legend-bullet" style="background: #00f2fe;"></span> Aliran Arus Aktif</div>
+              <div><span class="legend-bullet" style="background: #e2e8f0;"></span> Jalur Ground (-)</div>
+              <div><span class="legend-bullet" style="background: #00f2fe;"></span> ADC & WiFi Telemetri (ESP32)</div>
+              <div><span class="legend-bullet" style="background: #c084fc;"></span> Jalur I2C Sensor (INA219)</div>
             </div>
 
           </div>
@@ -2119,15 +2936,19 @@
           </div>
         </div>
 
-        <!-- Controller 3: Saklar Hardware -->
+        <!-- Controller 3: Saklar Rocker Hardware I / O -->
         <div class="control-box">
           <div class="control-header">
-            <span>🔘 Saklar Rocker Hardware (ON/OFF):</span>
-            <span class="control-tag" id="switchControlTag" style="color: var(--accent-green);">ON (Aktif)</span>
+            <span>🔘 Saklar Rocker Hardware [ I / O ]:</span>
+            <span class="control-tag" id="switchControlTag" style="color: var(--accent-green);">[ I ] ON (Terhubung)</span>
           </div>
           <div style="display: flex; gap: 0.5rem;">
-            <button class="chip-btn" style="flex: 1; font-weight: 800;" id="btnSwOn" onclick="setSwitchState(true)">ON (Hubungkan)</button>
-            <button class="chip-btn" style="flex: 1; font-weight: 800;" id="btnSwOff" onclick="setSwitchState(false)">OFF (Putus)</button>
+            <button class="chip-btn" style="flex: 1; font-weight: 800; font-size: 0.85rem;" id="btnSwOn" onclick="setSwitchState(true)">
+              🔴 [ I ] ON (Hubungkan)
+            </button>
+            <button class="chip-btn" style="flex: 1; font-weight: 800; font-size: 0.85rem;" id="btnSwOff" onclick="setSwitchState(false)">
+              ⚫ [ O ] OFF (Putus)
+            </button>
           </div>
         </div>
 
@@ -2149,7 +2970,276 @@
       </div>
     </div>
 
-    <!-- 8. Student Project Author Footer (M KHOIRUL FAHMI XI C - TEKNIK INFORMATIKA / IT) -->
+    <!-- 8. IoT FIRMWARE & ARDUINO / ESP32 CODE SECTION -->
+    <div class="glass-panel" id="firmwareSection">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>💻</span>
+          <span>Kode Program Firmware IoT & Mikrokontroler (ESP32 / Arduino C++)</span>
+        </div>
+        <span style="font-size: 0.75rem; color: var(--cyan-glow); font-weight: 700;">
+          ⚡ Siap Upload ke Board Fisik via Arduino IDE
+        </span>
+      </div>
+
+      <!-- Firmware Header Tabs -->
+      <div class="firmware-header-tabs">
+        <button class="fw-tab-btn active" id="tabBtnEsp32" onclick="switchFwTab('esp32')">
+          <span>📶</span> ESP32 WiFi Web Telemetry (.ino)
+        </button>
+        <button class="fw-tab-btn" id="tabBtnNano" onclick="switchFwTab('nano')">
+          <span>📟</span> Arduino Nano + OLED Display (.ino)
+        </button>
+        <button class="fw-tab-btn" id="tabBtnPinout" onclick="switchFwTab('pinout')">
+          <span>🔌</span> Skema Pinout & Sensor Wiring
+        </button>
+      </div>
+
+      <!-- Tab Content 1: ESP32 Code -->
+      <div id="fwContentEsp32" class="fw-tab-content">
+        <div class="fw-action-bar">
+          <div class="fw-file-badge">
+            <span>📄</span> ESP32_SolarPowerbank_Telemetry.ino
+          </div>
+          <div class="fw-btn-group">
+            <button class="fw-action-btn" onclick="copyFirmwareCode('esp32')">
+              <span>📋</span> Salin Kode
+            </button>
+            <button class="fw-action-btn" onclick="downloadFirmwareCode('esp32')">
+              <span>💾</span> Download .INO
+            </button>
+          </div>
+        </div>
+        <pre class="code-container-pre"><code id="codeBlockEsp32"><span class="c-com">/* =========================================================================
+ * PROYEK: SOLAR POWERBANK TELEMETRY & IoT HUB
+ * Author: M KHOIRUL FAHMI (KELAS XI C - TEKNIK INFORMATIKA)
+ * Target Board: ESP32 Mini / D1 Mini ESP32 / DevKit V1
+ * Sensor: INA219 (I2C Current Sensor) + Voltage Divider (ADC GPIO34)
+ * Output: WiFi WebServer Telemetry Endpoint (/telemetry.json)
+ * ========================================================================= */</span>
+
+<span class="c-prep">#include</span> <span class="c-str">&lt;WiFi.h&gt;</span>
+<span class="c-prep">#include</span> <span class="c-str">&lt;WebServer.h&gt;</span>
+<span class="c-prep">#include</span> <span class="c-str">&lt;Wire.h&gt;</span>
+<span class="c-prep">#include</span> <span class="c-str">&lt;Adafruit_INA219.h&gt;</span>
+
+<span class="c-com">// --- Konfigurasi Jaringan WiFi ---</span>
+<span class="c-kw">const</span> <span class="c-type">char</span>* ssid = <span class="c-str">"Powerbank_IoT_Hotspot"</span>;
+<span class="c-kw">const</span> <span class="c-type">char</span>* password = <span class="c-str">"fahmi12345"</span>;
+
+<span class="c-com">// --- Pin Hardware ESP32 Mini ---</span>
+<span class="c-prep">#define</span> PIN_SOLAR_ADC    34   <span class="c-com">// Voltage Divider R1=100k, R2=10k</span>
+<span class="c-prep">#define</span> PIN_BATTERY_ADC  35   <span class="c-com">// Voltage Divider R1=100k, R2=10k</span>
+<span class="c-prep">#define</span> PIN_STATUS_LED   2    <span class="c-com">// Built-in Blue LED</span>
+
+<span class="c-type">Adafruit_INA219</span> ina219;
+<span class="c-type">WebServer</span> server(<span class="c-num">80</span>);
+
+<span class="c-com">// Variabel Telemetri Real-Time</span>
+<span class="c-type">float</span> vSolar = <span class="c-num">0.0</span>;
+<span class="c-type">float</span> vBat = <span class="c-num">0.0</span>;
+<span class="c-type">float</span> iUsb = <span class="c-num">0.0</span>;
+<span class="c-type">float</span> pUsb = <span class="c-num">0.0</span>;
+<span class="c-type">int</span> batPercentage = <span class="c-num">0</span>;
+
+<span class="c-com">// Fungsi Membaca Tegangan ADC (dengan faktor pengali pembagi tegangan)</span>
+<span class="c-type">float</span> <span class="c-func">readAnalogVoltage</span>(<span class="c-type">int</span> pin) {
+  <span class="c-type">int</span> raw = <span class="c-func">analogRead</span>(pin);
+  <span class="c-type">float</span> vPin = (raw / <span class="c-num">4095.0</span>) * <span class="c-num">3.3</span>;
+  <span class="c-kw">return</span> vPin * <span class="c-num">11.0</span>; <span class="c-com">// Rasio pembagi tegangan (100k + 10k) / 10k = 11</span>
+}
+
+<span class="c-com">// Handler Endpoint REST API JSON untuk Website Simulasi</span>
+<span class="c-type">void</span> <span class="c-func">handleTelemetryJson</span>() {
+  <span class="c-type">String</span> json = <span class="c-str">"{"</span>;
+  json += <span class="c-str">"\"vSolar\":"</span> + <span class="c-type">String</span>(vSolar, <span class="c-num">2</span>) + <span class="c-str">","</span>;
+  json += <span class="c-str">"\"vBat\":"</span> + <span class="c-type">String</span>(vBat, <span class="c-num">2</span>) + <span class="c-str">","</span>;
+  json += <span class="c-str">"\"iUsb\":"</span> + <span class="c-type">String</span>(iUsb, <span class="c-num">3</span>) + <span class="c-str">","</span>;
+  json += <span class="c-str">"\"pUsb\":"</span> + <span class="c-type">String</span>(pUsb, <span class="c-num">2</span>) + <span class="c-str">","</span>;
+  json += <span class="c-str">"\"batteryPct\":"</span> + <span class="c-type">String</span>(batPercentage) + <span class="c-str">","</span>;
+  json += <span class="c-str">"\"author\":\"M KHOIRUL FAHMI XI C\""</span>;
+  json += <span class="c-str">"}"</span>;
+
+  server.<span class="c-func">sendHeader</span>(<span class="c-str">"Access-Control-Allow-Origin"</span>, <span class="c-str">"*"</span>);
+  server.<span class="c-func">send</span>(<span class="c-num">200</span>, <span class="c-str">"application/json"</span>, json);
+}
+
+<span class="c-type">void</span> <span class="c-func">setup</span>() {
+  Serial.<span class="c-func">begin</span>(<span class="c-num">115200</span>);
+  <span class="c-func">pinMode</span>(PIN_STATUS_LED, OUTPUT);
+  <span class="c-func">analogReadResolution</span>(<span class="c-num">12</span>); <span class="c-com">// ADC 12-bit (0-4095)</span>
+
+  <span class="c-com">// Inisialisasi Sensor Arus INA219</span>
+  <span class="c-kw">if</span> (!ina219.<span class="c-func">begin</span>()) {
+    Serial.<span class="c-func">println</span>(<span class="c-str">"[ERROR] Sensor INA219 tidak terdeteksi!"</span>);
+  }
+
+  <span class="c-com">// Inisialisasi WiFi Access Point</span>
+  WiFi.<span class="c-func">softAP</span>(ssid, password);
+  Serial.<span class="c-func">println</span>(<span class="c-str">"[IoT READY] Server IP: "</span> + WiFi.<span class="c-func">softAPIP</span>().<span class="c-func">toString</span>());
+
+  <span class="c-com">// Routing Web Server</span>
+  server.<span class="c-func">on</span>(<span class="c-str">"/telemetry.json"</span>, handleTelemetryJson);
+  server.<span class="c-func">begin</span>();
+}
+
+<span class="c-type">void</span> <span class="c-func">loop</span>() {
+  server.<span class="c-func">handleClient</span>();
+
+  <span class="c-com">// 1. Baca data sensor fisik</span>
+  vSolar = <span class="c-func">readAnalogVoltage</span>(PIN_SOLAR_ADC);
+  vBat = <span class="c-func">readAnalogVoltage</span>(PIN_BATTERY_ADC);
+  iUsb = ina219.<span class="c-func">getCurrent_mA</span>() / <span class="c-num">1000.0</span>; <span class="c-com">// Konversi ke Ampere</span>
+  pUsb = ina219.<span class="c-func">getBusVoltage_V</span>() * iUsb;
+
+  <span class="c-com">// 2. Hitung persentase baterai 18650 (Rentang 3.0V - 4.2V)</span>
+  batPercentage = (int)<span class="c-func">constrain</span>(((vBat - <span class="c-num">3.0</span>) / <span class="c-num">1.2</span>) * <span class="c-num">100.0</span>, <span class="c-num">0</span>, <span class="c-num">100</span>);
+
+  <span class="c-com">// 3. Proteksi Cut-off jika Baterai Kritis (&lt; 3.0V)</span>
+  <span class="c-kw">if</span> (vBat &lt; <span class="c-num">3.05</span>) {
+    <span class="c-func">digitalWrite</span>(PIN_STATUS_LED, (millis() / <span class="c-num">200</span>) % <span class="c-num">2</span>); <span class="c-com">// Blink tanda bahaya</span>
+  } <span class="c-kw">else</span> {
+    <span class="c-func">digitalWrite</span>(PIN_STATUS_LED, HIGH);
+  }
+
+  <span class="c-func">delay</span>(<span class="c-num">250</span>);
+}</code></pre>
+      </div>
+
+      <!-- Tab Content 2: Arduino Nano Code -->
+      <div id="fwContentNano" class="fw-tab-content" style="display: none;">
+        <div class="fw-action-bar">
+          <div class="fw-file-badge">
+            <span>📄</span> Arduino_Nano_OLED_Powerbank.ino
+          </div>
+          <div class="fw-btn-group">
+            <button class="fw-action-btn" onclick="copyFirmwareCode('nano')">
+              <span>📋</span> Salin Kode
+            </button>
+            <button class="fw-action-btn" onclick="downloadFirmwareCode('nano')">
+              <span>💾</span> Download .INO
+            </button>
+          </div>
+        </div>
+        <pre class="code-container-pre"><code id="codeBlockNano"><span class="c-com">/* =========================================================================
+ * PROYEK: SOLAR POWERBANK DENGAN DISPLAY OLED 0.96"
+ * Author: M KHOIRUL FAHMI (KELAS XI C - TEKNIK INFORMATIKA)
+ * Target Board: Arduino Nano / Uno (ATmega328P)
+ * Display: OLED I2C 128x64 (SSD1306)
+ * ========================================================================= */</span>
+
+<span class="c-prep">#include</span> <span class="c-str">&lt;Wire.h&gt;</span>
+<span class="c-prep">#include</span> <span class="c-str">&lt;Adafruit_GFX.h&gt;</span>
+<span class="c-prep">#include</span> <span class="c-str">&lt;Adafruit_SSD1306.h&gt;</span>
+<span class="c-prep">#include</span> <span class="c-str">&lt;Adafruit_INA219.h&gt;</span>
+
+<span class="c-prep">#define</span> SCREEN_WIDTH <span class="c-num">128</span>
+<span class="c-prep">#define</span> SCREEN_HEIGHT <span class="c-num">64</span>
+<span class="c-type">Adafruit_SSD1306</span> display(SCREEN_WIDTH, SCREEN_HEIGHT, &amp;Wire, -<span class="c-num">1</span>);
+<span class="c-type">Adafruit_INA219</span> ina219;
+
+<span class="c-prep">#define</span> PIN_SOLAR_IN A0
+<span class="c-prep">#define</span> PIN_BAT_IN   A1
+
+<span class="c-type">void</span> <span class="c-func">setup</span>() {
+  Serial.<span class="c-func">begin</span>(<span class="c-num">9600</span>);
+  ina219.<span class="c-func">begin</span>();
+  
+  <span class="c-kw">if</span>(!display.<span class="c-func">begin</span>(SSD1306_SWITCHCAPVCC, <span class="c-num">0x3C</span>)) {
+    Serial.<span class="c-func">println</span>(<span class="c-str">"OLED Gagal Terhubung"</span>);
+    <span class="c-kw">for</span>(;;);
+  }
+
+  display.<span class="c-func">clearDisplay</span>();
+  display.<span class="c-func">setTextSize</span>(<span class="c-num">1</span>);
+  display.<span class="c-func">setTextColor</span>(SSD1306_WHITE);
+  display.<span class="c-func">setCursor</span>(<span class="c-num">15</span>, <span class="c-num">20</span>);
+  display.<span class="c-func">println</span>(<span class="c-str">"SOLAR POWERBANK"</span>);
+  display.<span class="c-func">setCursor</span>(<span class="c-num">25</span>, <span class="c-num">35</span>);
+  display.<span class="c-func">println</span>(<span class="c-str">"FAHMI - XI C"</span>);
+  display.<span class="c-func">display</span>();
+  <span class="c-func">delay</span>(<span class="c-num">1500</span>);
+}
+
+<span class="c-type">void</span> <span class="c-func">loop</span>() {
+  <span class="c-type">float</span> vBat = (<span class="c-func">analogRead</span>(PIN_BAT_IN) / <span class="c-num">1023.0</span>) * <span class="c-num">5.0</span> * <span class="c-num">1.1</span>;
+  <span class="c-type">float</span> iOut = ina219.<span class="c-func">getCurrent_mA</span>() / <span class="c-num">1000.0</span>;
+  <span class="c-type">float</span> pOut = <span class="c-num">5.0</span> * iOut;
+  <span class="c-type">int</span> pct = (int)<span class="c-func">constrain</span>(((vBat - <span class="c-num">3.0</span>) / <span class="c-num">1.2</span>) * <span class="c-num">100</span>, <span class="c-num">0</span>, <span class="c-num">100</span>);
+
+  display.<span class="c-func">clearDisplay</span>();
+  display.<span class="c-func">setCursor</span>(<span class="c-num">0</span>, <span class="c-num">0</span>);
+  display.<span class="c-func">print</span>(<span class="c-str">"BAT:"</span>); display.<span class="c-func">print</span>(vBat, <span class="c-num">2</span>); display.<span class="c-func">print</span>(<span class="c-str">"V ["</span>); display.<span class="c-func">print</span>(pct); display.<span class="c-func">println</span>(<span class="c-str">"%]"</span>);
+  display.<span class="c-func">print</span>(<span class="c-str">"USB:"</span>); display.<span class="c-func">print</span>(iOut, <span class="c-num">2</span>); display.<span class="c-func">print</span>(<span class="c-str">"A | "</span>); display.<span class="c-func">print</span>(pOut, <span class="c-num">1</span>); display.<span class="c-func">println</span>(<span class="c-str">"W"</span>);
+  
+  <span class="c-com">// Render Bar Kapasitas Baterai</span>
+  display.<span class="c-func">drawRect</span>(<span class="c-num">0</span>, <span class="c-num">45</span>, <span class="c-num">120</span>, <span class="c-num">12</span>, SSD1306_WHITE);
+  display.<span class="c-func">fillRect</span>(<span class="c-num">2</span>, <span class="c-num">47</span>, (<span class="c-type">int</span>)(pct * <span class="c-num">1.16</span>), <span class="c-num">8</span>, SSD1306_WHITE);
+  display.<span class="c-func">display</span>();
+
+  <span class="c-com">// Output Serial untuk Serial Plotter</span>
+  Serial.<span class="c-func">print</span>(vBat); Serial.<span class="c-func">print</span>(<span class="c-str">","</span>); Serial.<span class="c-func">println</span>(iOut);
+  <span class="c-func">delay</span>(<span class="c-num">300</span>);
+}</code></pre>
+      </div>
+
+      <!-- Tab Content 3: Pinout & Wiring Table -->
+      <div id="fwContentPinout" class="fw-tab-content" style="display: none;">
+        <div style="background: rgba(2, 6, 23, 0.7); border: 1px solid var(--panel-border); border-radius: 0.75rem; padding: 1rem; overflow-x: auto;">
+          <table class="pinout-table">
+            <thead>
+              <tr>
+                <th>Komponen Sensor / Modul</th>
+                <th>Pin ESP32 (NodeMCU / Mini)</th>
+                <th>Pin Arduino Nano</th>
+                <th>Keterangan / Fungsi Jalur</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Sensor Arus INA219 (SDA)</strong></td>
+                <td><span class="pin-badge">GPIO 21</span></td>
+                <td><span class="pin-badge">Pin A4</span></td>
+                <td>Komunikasi Data I2C Data Line</td>
+              </tr>
+              <tr>
+                <td><strong>Sensor Arus INA219 (SCL)</strong></td>
+                <td><span class="pin-badge">GPIO 22</span></td>
+                <td><span class="pin-badge">Pin A5</span></td>
+                <td>Komunikasi Clock I2C Clock Line</td>
+              </tr>
+              <tr>
+                <td><strong>Sensor INA219 (VCC &amp; GND)</strong></td>
+                <td><span class="pin-badge">3V3 &amp; GND</span></td>
+                <td><span class="pin-badge">5V &amp; GND</span></td>
+                <td>Suplai Daya Logika Sensor</td>
+              </tr>
+              <tr>
+                <td><strong>Pembagi Tegangan Panel Surya (100k/10k)</strong></td>
+                <td><span class="pin-badge">GPIO 34 (ADC1)</span></td>
+                <td><span class="pin-badge">Pin A0</span></td>
+                <td>Membaca Voltase Panel Surya (0 - 6V DC)</td>
+              </tr>
+              <tr>
+                <td><strong>Pembagi Tegangan Baterai 18650 (100k/10k)</strong></td>
+                <td><span class="pin-badge">GPIO 35 (ADC1)</span></td>
+                <td><span class="pin-badge">Pin A1</span></td>
+                <td>Membaca Voltase Baterai (3.0V - 4.2V DC)</td>
+              </tr>
+              <tr>
+                <td><strong>Display OLED 0.96" SSD1306</strong></td>
+                <td><span class="pin-badge">GPIO 21 &amp; 22</span></td>
+                <td><span class="pin-badge">Pin A4 &amp; A5</span></td>
+                <td>I2C Display (Alamat Hex: 0x3C)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 9. Student Project Author Footer (M KHOIRUL FAHMI XI C - TEKNIK INFORMATIKA / IT) -->
     <footer class="app-footer">
       <div class="footer-badge">💻 PROYEK TEKNIK INFORMATIKA (IT) & IoT ELEKTRONIKA</div>
       <div class="author-name">M KHOIRUL FAHMI</div>
@@ -2161,6 +3251,95 @@
       <div class="footer-subtext">Proyek Simulasi Web Telemetri, Perhitungan Daya & Rancang Bangun Powerbank Tenaga Surya 18650</div>
     </footer>
 
+  </div>
+
+  <!-- =========================================================================
+       QC PASSED DIGITAL CERTIFICATE MODAL
+       ========================================================================= */
+       -->
+  <div class="cert-modal-backdrop" id="certModal" onclick="closeCertOnBackdrop(event)">
+    <div class="cert-modal-card" id="certCard">
+      <button class="cert-close-btn" onclick="closeCertificateModal()">✖</button>
+      
+      <div class="cert-frame">
+        <div class="cert-corner tl"></div>
+        <div class="cert-corner tr"></div>
+        <div class="cert-corner bl"></div>
+        <div class="cert-corner br"></div>
+        
+        <div class="cert-top-badge">
+          <span>⚡ LABORATORIUM REKAYASA TEKNIK INFORMATIKA & IoT</span>
+        </div>
+
+        <h2 class="cert-main-title">SERTIFIKAT KELAYAKAN TEKNIS</h2>
+        <p class="cert-sub-title">CERTIFICATE OF QUALITY CONTROL & SYSTEM INTEGRITY • QC PASSED</p>
+        
+        <div class="cert-divider-line"></div>
+
+        <p class="cert-recipient-text">Diberikan secara resmi sebagai bukti kelayakan teknis perancangan & pengujian kepada:</p>
+        
+        <div class="cert-student-name">M KHOIRUL FAHMI</div>
+        <div class="cert-student-class">KELAS XI C • [TEKNIK INFORMATIKA (IT)]</div>
+
+        <div class="cert-project-name">
+          "Proyek Simulasi Web Telemetri, Kalkulator Daya, Rancang Bangun Powerbank Tenaga Surya 18650 & IoT Firmware ESP32"
+        </div>
+
+        <!-- Technical Inspection Matrix -->
+        <div class="cert-matrix-grid">
+          <div class="matrix-item">
+            <span class="m-label">Regulasi Output USB:</span>
+            <span class="m-val pass">5.05 V (STABIL / PASS)</span>
+          </div>
+          <div class="matrix-item">
+            <span class="m-label">Beban Fast Charge:</span>
+            <span class="m-val pass">1.20 A - 1.80 A (PASS)</span>
+          </div>
+          <div class="matrix-item">
+            <span class="m-label">Proteksi Cut-off:</span>
+            <span class="m-val pass">3.00 V Cutoff (PASS)</span>
+          </div>
+          <div class="matrix-item">
+            <span class="m-label">Efisiensi Step-Up:</span>
+            <span class="m-val pass">~89.2% (EXCELLENT)</span>
+          </div>
+        </div>
+
+        <!-- Footer Signature, Date & Holographic Stamp -->
+        <div class="cert-footer-row">
+          <div class="cert-date-box">
+            <span class="cert-date-label">Tanggal Uji Kelayakan:</span>
+            <span class="cert-date-val" id="certDateDisplay">27 Agustus 2026</span>
+            <span class="cert-serial">NO: CERT-QC/IT-XIC/2026-X1</span>
+          </div>
+
+          <!-- Holographic Gold/Green QC Stamp -->
+          <div class="qc-stamp-badge">
+            <div class="qc-stamp-inner">
+              <span>★ QC PASSED ★</span>
+              <small>VERIFIED 100%</small>
+              <span>TEKNIK INFORMATIKA</span>
+            </div>
+          </div>
+
+          <div class="cert-sign-box">
+            <div class="cert-sign-line">M Khoirul Fahmi</div>
+            <span class="cert-sign-role">Lead Engineer / Siswa Penguji</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons on Modal -->
+      <div class="cert-action-bar-modal">
+        <button class="cert-btn-print" onclick="printCertificate()">🖨️ Cetak / Simpan PDF</button>
+        <button class="cert-btn-close" onclick="closeCertificateModal()">Tutup Jendela</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div class="toast-alert" id="toastAlert">
+    <span>✅</span> <span id="toastMsg">Kode berhasil disalin ke clipboard!</span>
   </div>
 
   <script>
@@ -2208,8 +3387,10 @@
 
     const ledTpRed = document.getElementById('ledTpRed');
     const ledTpGreen = document.getElementById('ledTpGreen');
+    const schEsp32Status = document.getElementById('schEsp32Status');
 
-    const schSwitchVisual = document.getElementById('schSwitchVisual');
+    const schRockerPaddle = document.getElementById('schRockerPaddle');
+    const schSwitchCaption = document.getElementById('schSwitchCaption');
     const schStepUpStatus = document.getElementById('schStepUpStatus');
     const sevenSegVolt = document.getElementById('sevenSegVolt');
     const schUsbOutReadout = document.getElementById('schUsbOutReadout');
@@ -2228,6 +3409,7 @@
     const pulseSwitchInPos = document.getElementById('pulseSwitchInPos');
     const pulseStepUpInPos = document.getElementById('pulseStepUpInPos');
     const pulseUsbOutPos = document.getElementById('pulseUsbOutPos');
+    const pulseEsp32Iot = document.getElementById('pulseEsp32Iot');
 
     // Metrics Card Elements
     const solarWattVal = document.getElementById('solarWattVal');
@@ -2358,6 +3540,14 @@
         specs: 'Voltase Input: 4.5V - 5.5V | Arus Charge Max: 1.0A (Bisa disetel Rprog) | Cut-off Penuh: 4.20V',
         tips: 'Gunakan pin OUT+ dan OUT- untuk ke beban saklar/step-up (bukan langsung BAT+) agar fitur cut-off pemutus daya otomatis berfungsi!'
       },
+      esp32: {
+        icon: '📶',
+        title: 'Mikrokontroler ESP32 Mini (IoT Controller & WiFi Server)',
+        category: 'Pemrosesan Data & Komunikasi IoT (System Brain)',
+        func: 'Membaca sensor tegangan analog & arus digital secara real-time, mengeksekusi proteksi cutoff cerdas, dan memancarkan data telemetri via WiFi WebServer langsung ke smartphone.',
+        specs: 'Dual-Core 240MHz | WiFi 802.11 b/g/n + Bluetooth | ADC 12-Bit | Tegangan Kerja: 3.3V / 5V VIN',
+        tips: 'Hubungkan pin ADC melalui rangkaian pembagi tegangan (voltage divider 100k/10k) agar tegangan yang masuk ke pin ESP32 tidak melebihi batas aman 3.3V.'
+      },
       battery: {
         icon: '🔋',
         title: 'Baterai Li-Ion 18650 3.7V (Samsung INR18650-25R)',
@@ -2368,11 +3558,11 @@
       },
       switch: {
         icon: '🔘',
-        title: 'Saklar Rocker Switch 2-Pin (Red Toggle)',
-        category: 'Kontrol Daya Mekanikal (Master Switch)',
-        func: 'Memutus dan menghubungkan aliran arus listrik dari baterai ke modul Step-Up MT3608 dan port USB output.',
-        specs: 'Tipe: SPST (Single Pole Single Throw) | Rating: 3A 250V AC / 6A 12V DC',
-        tips: 'Saat saklar posisi OFF, pengisian baterai dari panel surya tetap bekerja normal di latar belakang tanpa membuang daya ke voltmeter.'
+        title: 'Saklar Rocker Switch Simbol [ I / O ] (KCD1-101 Red)',
+        category: 'Kontrol Daya Mekanikal (Master Power Switch)',
+        func: 'Memutus (posisi O / Terbuka) dan menghubungkan (posisi I / Tertutup) aliran arus listrik dari baterai ke modul Step-Up MT3608 dan port USB output.',
+        specs: 'Simbol Standar IEC 60417: [ I = ON / Closed Circuit ] & [ O = OFF / Open Circuit ] | Rating: 6A 250V AC / 10A 12V DC',
+        tips: 'Saat saklar pada posisi O (OFF), pengisian baterai dari panel surya tetap bekerja normal mengisi daya tanpa menyedot beban voltmeter.'
       },
       stepup: {
         icon: '⚡',
@@ -2561,7 +3751,7 @@
       } else if (!switchIsOn) {
         statusIcon.innerHTML = '🔘';
         statusIcon.style.color = 'var(--text-muted)';
-        statusTitle.innerText = 'Saklar Output Dimatikan (OFF)';
+        statusTitle.innerText = 'Saklar Output Dimatikan (Posisi [ O ] OFF)';
         statusDesc.innerText = iSolar > 0.05 ? 'Hanya pengisian panel surya ke baterai yang aktif.' : 'Sistem dalam keadaan standby sepenuhnya.';
       } else if (iSolar > 0.1 && iUsb > 0.1) {
         if (iNet >= 0) {
@@ -2595,7 +3785,7 @@
       tagNetFlow.innerText = `Net: ${(iNet >= 0 ? '+' : '') + iNet.toFixed(2)} A`;
       tagNetFlow.style.color = iNet >= 0 ? 'var(--accent-green)' : 'var(--accent-amber)';
       
-      tagSwitchState.innerText = switchIsOn ? 'Saklar: ON' : 'Saklar: OFF';
+      tagSwitchState.innerText = switchIsOn ? 'Saklar: [ I ] ON' : 'Saklar: [ O ] OFF';
       tagSwitchState.style.color = switchIsOn ? 'var(--accent-green)' : 'var(--accent-red)';
 
       // --- 2. Update Schematic Display Nodes ---
@@ -2620,13 +3810,16 @@
         ledTpGreen.className = 'tp-led';
       }
 
-      // Switch Visual
+      // ESP32 Mini Status Readout
+      schEsp32Status.innerHTML = `WiFi: 192.168.4.1<br>ADC: ${vBat.toFixed(2)}V (${socPct}%)`;
+
+      // Rocker Switch I / O Paddle Visual
       if (switchIsOn) {
-        schSwitchVisual.className = 'rocker-switch-btn';
-        schSwitchVisual.innerText = 'ON';
+        schRockerPaddle.className = 'rocker-paddle state-on';
+        schSwitchCaption.innerHTML = 'SAKLAR: <strong style="color:#ef4444;">[ I ] ON</strong>';
       } else {
-        schSwitchVisual.className = 'rocker-switch-btn sw-off';
-        schSwitchVisual.innerText = 'OFF';
+        schRockerPaddle.className = 'rocker-paddle state-off';
+        schSwitchCaption.innerHTML = 'SAKLAR: <strong style="color:#94a3b8;">[ O ] OFF</strong>';
       }
 
       // Step Up & Voltmeter Display
@@ -2672,6 +3865,7 @@
       pulseSwitchInPos.style.display = (switchIsOn && iUsb > 0.05) ? 'block' : 'none';
       pulseStepUpInPos.style.display = (switchIsOn && iUsb > 0.05) ? 'block' : 'none';
       pulseUsbOutPos.style.display = (switchIsOn && iUsb > 0.05) ? 'block' : 'none';
+      pulseEsp32Iot.style.display = 'block';
 
       // --- 3. Telemetry Metrics Cards ---
       solarWattVal.innerText = pSolar.toFixed(2);
@@ -2732,7 +3926,7 @@
       // Update Slider Tags
       solarTag.innerText = `${iSolar.toFixed(2)} A (${solarPowerPct > 70 ? 'Terik' : (solarPowerPct > 30 ? 'Sedang' : (solarPowerPct > 0 ? 'Redup' : '0A'))})`;
       loadTag.innerText = `${usbTargetAmp.toFixed(2)} A`;
-      switchControlTag.innerText = switchIsOn ? 'ON (Aktif)' : 'OFF (Putus)';
+      switchControlTag.innerText = switchIsOn ? '[ I ] ON (Terhubung)' : '[ O ] OFF (Putus)';
       switchControlTag.style.color = switchIsOn ? 'var(--accent-green)' : 'var(--accent-red)';
       injectBatTag.innerText = `${socPct}% (${vBat.toFixed(2)}V)`;
 
@@ -2848,6 +4042,83 @@
         else ctx.lineTo(x, y);
       });
       ctx.stroke();
+    }
+
+    /* =========================================================================
+       FIRMWARE TAB CONTROLLER & ACTIONS
+       ========================================================================= */
+    function switchFwTab(tab) {
+      document.getElementById('tabBtnEsp32').classList.toggle('active', tab === 'esp32');
+      document.getElementById('tabBtnNano').classList.toggle('active', tab === 'nano');
+      document.getElementById('tabBtnPinout').classList.toggle('active', tab === 'pinout');
+
+      document.getElementById('fwContentEsp32').style.display = tab === 'esp32' ? 'block' : 'none';
+      document.getElementById('fwContentNano').style.display = tab === 'nano' ? 'block' : 'none';
+      document.getElementById('fwContentPinout').style.display = tab === 'pinout' ? 'block' : 'none';
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastAlert');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function copyFirmwareCode(type) {
+      const codeEl = type === 'esp32' ? document.getElementById('codeBlockEsp32') : document.getElementById('codeBlockNano');
+      if (!codeEl) return;
+      const text = codeEl.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`Kode ${type.toUpperCase()} berhasil disalin ke clipboard!`);
+      }).catch(err => {
+        showToast("Gagal menyalin kode!");
+      });
+    }
+
+    function downloadFirmwareCode(type) {
+      const codeEl = type === 'esp32' ? document.getElementById('codeBlockEsp32') : document.getElementById('codeBlockNano');
+      if (!codeEl) return;
+      const text = codeEl.innerText;
+      const filename = type === 'esp32' ? 'ESP32_SolarPowerbank_Telemetry.ino' : 'Arduino_Nano_OLED_Powerbank.ino';
+
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast(`File ${filename} berhasil didownload!`);
+    }
+
+    /* =========================================================================
+       QC CERTIFICATE MODAL CONTROLS
+       ========================================================================= */
+    function openCertificateModal() {
+      const modal = document.getElementById('certModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        const now = new Date();
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        document.getElementById('certDateDisplay').innerText = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+      }
+    }
+
+    function closeCertificateModal() {
+      const modal = document.getElementById('certModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function closeCertOnBackdrop(e) {
+      if (e.target.id === 'certModal') {
+        closeCertificateModal();
+      }
+    }
+
+    function printCertificate() {
+      window.print();
     }
 
     /* =========================================================================
